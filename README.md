@@ -70,3 +70,227 @@ Check installed versions:
 terraform version
 docker version
 git --version
+```
+
+Check if Docker is running:
+
+```bash
+docker ps
+```
+
+If Docker is running correctly, this command should return a container list, even if the list is empty.
+
+### 💻 Supported environments
+
+- Linux / macOS / Windows
+- WSL (Windows Subsystem for Linux)
+
+---
+
+## 🚀 Installation
+
+```bash
+git clone https://github.com/MartinTomcikMT/terraform-docker-infra.git
+cd terraform-docker-infra
+```
+
+---
+
+## ▶️ How to Run
+
+Format Terraform files:
+
+```bash
+terraform fmt
+```
+
+Initialize Terraform and download the required Docker provider:
+
+```bash
+terraform init
+```
+
+Validate Terraform configuration:
+
+```bash
+terraform validate
+```
+
+Preview what Terraform will create:
+
+```bash
+terraform plan
+```
+
+Apply the configuration and create the Docker container:
+
+```bash
+terraform apply
+```
+
+Confirm with:
+
+```text
+yes
+```
+
+Verify that the container is running:
+
+```bash
+docker ps
+```
+
+Test the Nginx web server:
+
+```bash
+curl http://localhost:8080
+```
+
+Or open in browser:
+
+```text
+http://localhost:8080
+```
+
+Destroy the created infrastructure:
+
+```bash
+terraform destroy
+```
+
+Confirm with:
+
+```text
+yes
+```
+
+---
+
+## 🚀 How It Works
+
+1. Terraform reads the configuration from `main.tf`.
+2. Terraform downloads and uses the Docker provider.
+3. The Docker provider communicates with the local Docker daemon.
+4. Terraform pulls the `nginx:latest` Docker image.
+5. Terraform creates a Docker container named `terraform-nginx`.
+6. The container exposes internal port `80`.
+7. Local port `8080` is mapped to the container port `80`.
+8. The Nginx default page is available at `http://localhost:8080`.
+9. When `terraform destroy` is executed, Terraform removes the created container.
+
+---
+
+## 🧠 What I Learned
+
+- how to create a basic Terraform project
+- how to configure a Terraform provider
+- how Terraform uses providers to manage external resources
+- how to use the Docker provider
+- how Terraform creates a Docker image resource
+- how Terraform creates a Docker container resource
+- how port mapping works between host and container
+- how to use the basic Terraform workflow
+- how Terraform state tracks created infrastructure
+- the difference between pushing code to GitHub and actually deploying infrastructure
+- how to verify a running container with Docker commands and `curl`
+
+---
+
+## ⚠️ Challenges & Solutions
+
+### Problem:
+
+At first, it was not clear why the Docker container was not visible after pushing the project to GitHub.
+
+### Solution:
+
+I learned that `git push` only uploads the project files to GitHub.  
+It does not create infrastructure.
+
+The Docker container is created only after running:
+
+```bash
+terraform apply
+```
+
+---
+
+### Problem:
+
+Docker command was not available inside WSL.
+
+### Solution:
+
+Docker had to be installed or Docker Desktop WSL integration had to be enabled.  
+After Docker was available inside WSL, Terraform could use the Docker provider to create the container.
+
+---
+
+## 📸 Screenshot
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="images/terraform_plan.jpg" target="_blank">
+          <img src="images/terraform_plan_small.jpg"/>
+        </a><br/>
+        <sub>Terraform plan</sub>
+      </td>
+      <td align="center">
+        <a href="images/terraform_apply.jpg" target="_blank">
+          <img src="images/terraform_apply_small.jpg"/>
+        </a><br/>
+        <sub>Terraform apply</sub>
+      </td>
+      <td align="center">
+        <a href="images/docker_ps.jpg" target="_blank">
+          <img src="images/docker_ps_small.jpg"/>
+        </a><br/>
+        <sub>Running Docker container</sub>
+      </td>
+      <td align="center">
+        <a href="images/nginx_browser.jpg" target="_blank">
+          <img src="images/nginx_browser_small.jpg"/>
+        </a><br/>
+        <sub>Nginx in browser</sub>
+      </td>
+      <td align="center">
+        <a href="images/terraform_destroy.jpg" target="_blank">
+          <img src="images/terraform_destroy_small.jpg"/>
+        </a><br/>
+        <sub>Terraform destroy</sub>
+      </td>
+    </tr>
+  </table>
+</p>
+
+---
+
+## 📃 Project Structure
+
+```text
+terraform-docker-infra/
+├── .gitignore
+├── .terraform.lock.hcl
+├── README.md
+└── main.tf
+```
+
+---
+
+## 📌 Future Improvements
+
+- add `variables.tf`
+- add `outputs.tf`
+- improve Terraform project structure
+- serve a custom HTML page through Nginx
+- mount local files into the Docker container
+- introduce `terraform.tfvars`
+- make container name, exposed port and Docker image configurable
+- create reusable Terraform modules
+- deploy multiple containers
+- add GitHub Actions for Terraform validation
+- add project screenshots
+
+---
