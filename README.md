@@ -233,31 +233,31 @@ After Docker was available inside WSL, Terraform could use the Docker provider t
     <tr>
       <td align="center">
         <a href="images/terraform-docker-infra_phase1_plan.jpg" target="_blank">
-          <img src="images/terraform-docker-infra_phase1_plan.jpg"/ width="400">
+          <img src="images/terraform-docker-infra_phase1_plan.jpg" width="400">
         </a><br/>
         <sub>Terraform plan</sub>
       </td>
       <td align="center">
         <a href="images/terraform-docker-infra_phase1_apply.jpg" target="_blank">
-          <img src="images/terraform-docker-infra_phase1_apply.jpg"/ width="400">
+          <img src="images/terraform-docker-infra_phase1_apply.jpg" width="400">
         </a><br/>
         <sub>Terraform apply</sub>
       </td>
       <td align="center">
         <a href="images/terraform-docker-infra_phase1_docke.jpg" target="_blank">
-          <img src="images/terraform-docker-infra_phase1_docker.jpg"/ width="400">
+          <img src="images/terraform-docker-infra_phase1_docker.jpg" width="400">
         </a><br/>
         <sub>Running Docker container</sub>
       </td>
       <td align="center">
         <a href="images/terraform-docker-infra_phase1_nginx.jpg" target="_blank">
-          <img src="images/terraform-docker-infra_phase1_nginx.jpg"/ width="400">
+          <img src="images/terraform-docker-infra_phase1_nginx.jpg" width="400">
         </a><br/>
         <sub>Nginx in browser</sub>
       </td>
       <td align="center">
         <a href="images/terraform-docker-infra_phase1_destroy.jpg" target="_blank">
-          <img src="images/terraform-docker-infra_phase1_destroy.jpg"/ width="400">
+          <img src="images/terraform-docker-infra_phase1_destroy.jpg" width="400">
         </a><br/>
         <sub>Terraform destroy</sub>
       </td>
