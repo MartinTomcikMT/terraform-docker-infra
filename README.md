@@ -294,3 +294,10 @@ terraform-docker-infra/
 - add project screenshots
 
 ---
+
+---
+
+## 👤 Author
+
+Martin Tomcik  
+Cloud & Infrastructure Engineer | Azure | AWS ☁️
