@@ -1,6 +1,6 @@
-# 🖥️ Terraform Docker Infra (terraform)
+# 🖥️ Terraform Docker Infra
 
-Simple tool for creating docker container with using terraform
+Simple Infrastructure as Code project for creating a Docker container using Terraform.
 
 ---
 
@@ -8,134 +8,65 @@ Simple tool for creating docker container with using terraform
 
 The goal of this project was to:
 
-* 
+* practice basic Terraform workflow
+* understand how Terraform providers work
+* use Terraform to manage Docker resources
+* deploy a simple Nginx container with Terraform
+* learn the difference between Terraform configuration and real infrastructure
+* verify the deployed container locally through `localhost`
+
+---
+
+## ⏱️ Project Status
+
+**Status:** Completed – Phase 1  
+**Current Phase:** Phase 1 – Basic Infrastructure Deployment  
+**Type:** Infrastructure as Code / DevOps Lab  
+**Technologies:** Terraform, Docker, Nginx, WSL, VS Code
+
 ---
 
 ## ⚙️ Features
 
-* 
+* Uses Terraform Docker provider
+* Pulls the `nginx:latest` Docker image
+* Creates a Docker container named `terraform-nginx`
+* Maps container port `80` to local port `8080`
+* Allows local testing through `http://localhost:8080`
+* Demonstrates basic Terraform workflow:
+  * `terraform init`
+  * `terraform fmt`
+  * `terraform validate`
+  * `terraform plan`
+  * `terraform apply`
+  * `terraform destroy`
 
 ---
 
 ## 🛠️ Technologies Used
 
-* Terraform 
+* **Terraform** – Infrastructure as Code tool
+* **Docker** – Container platform
+* **Nginx** – Web server running inside the container
+* **WSL** – Linux environment on Windows
+* **VS Code** – Code editor
+* **Git & GitHub** – Version control and project hosting
 
 ---
 
 ## 👍 Pre-requisites
 
-To run this script, make sure you have the following installed:
+To run this project, make sure you have the following installed:
 
-- 
+- Terraform
+- Docker
+- Git
+- WSL, if you are working on Windows
+- VS Code, optional but recommended
 
-```
-
-### 💻 Supported environments
-
-- Linux / macOS / Windows  
-- WSL (Windows Subsystem for Linux)
-
----
-
-## 🚀 Installation
+Check installed versions:
 
 ```bash
-
-git clone https://github.com/MartinTomcikMT/terraform-docker-infra.git
-cd terraform-docker-infra
-
-```
-
----
-
-## ▶️ How to Run
-
-```bash
-
-```
-
----
-
-## 🚀 How It Works
-
-1. 
----
-
-## 🧠 What I Learned
-
-- 
-
----
-
-## ⚠️ Challenges & Solutions
-
-### Problem:
-
-
-
-### Solution:
-
-
-
----
-
-## 📸 Screenshot
-
-<p align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <a href="images/terraform_docker.jpg" target="_blank">
-          <img src="images/terraform_docker_small.jpg"/>
-        </a><br/>
-        <sub> text </sub>
-      </td>
-      <td align="center">
-        <a href="images/terraform_docker.jpg" target="_blank">
-          <img src="images/terraform_docker_small.jpg"/>
-        </a><br/>
-        <sub> text </sub>
-      </td>
-      <td align="center">
-        <a href="images/terraform_docker.jpg" target="_blank">
-          <img src="images/terraform_docker_small.jpg"/>
-        </a><br/>
-        <sub> text </sub>
-      </td>
-      <td align="center">
-        <a href="images/terraform_docker.jpg" target="_blank">
-          <img src="images/terraform_docker_small.jpg"/>
-        </a><br/>
-        <sub> text </sub>
-      </td>
-      <td align="center">
-        <a href="images/terraform_docker.jpg" target="_blank">
-          <img src="images/terraform_docker_small.jpg"/>
-        </a><br/>
-        <sub> text </sub>
-      </td>
-    </tr>
-  </table>
-</p>
-
----
-
-## 📃 Project Structure
-
-```text
-
-```
-
----
-
-## 📌 Future Improvements
-
-- 
-
----
-
-## 👤 Author
-
-Martin Tomcik  
-Aspiring DevOps Engineer ☁️
+terraform version
+docker version
+git --version
