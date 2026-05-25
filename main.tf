@@ -22,4 +22,10 @@ resource "docker_container" "nginx" {
     internal = var.internal_port
     external = var.external_port
   }
+
+  volumes {
+    host_path      = abspath("${path.module}/web")
+    container_path = "/usr/share/nginx/html"
+    read_only      = true
+  }
 }

@@ -15,19 +15,24 @@ PHASE 1
 * deploy a simple Nginx container with Terraform
 * learn the difference between Terraform configuration and real infrastructure
 * verify the deployed container locally through `localhost`
-* 
+ 
 PHASE 2  
 * improve Terraform project structure
 * replace hardcoded values with variables
 * add Terraform outputs for useful deployment information
 * make the project easier to read, maintain and extend
 
+PHASE 3
+* serve a custom Cloud/DevOps Knowledge Base webpage through Nginx
+* mount local static web files into the Docker container
+* replace the default Nginx welcome page with custom web content (my devops overview page)
+
 ---
 
 ## ⏱️ Project Status
 
-**Status:** Completed – Phase 2  
-**Current Phase:** Phase 2 – Project Structure & Best Practices  
+**Status:** Completed – Phase 3  
+**Current Phase:** Phase 3 – Custom Web Content  
 **Type:** Infrastructure as Code / DevOps Lab  
 **Technologies:** Terraform, Docker, Nginx, WSL, VS Code
 
@@ -47,6 +52,13 @@ PHASE 2
   * `terraform plan`
   * `terraform apply`
   * `terraform destroy`
+* Uses separate Terraform files for better structure
+* Defines configurable values in `variables.tf`
+* Displays useful deployment information through `outputs.tf`
+* Serves a custom Cloud/DevOps Knowledge Base webpage through Nginx
+* Mounts the local `web/` directory into the Docker container
+* Replaces the default Nginx welcome page with personal static web content
+* Uses Terraform volume configuration to manage custom web content
 
 ---
 
@@ -220,6 +232,13 @@ PHASE 2
 - how to display useful information after `terraform apply`
 - how to make Terraform code cleaner and easier to maintain
 
+PHASE 3
+- how to serve custom content through an Nginx container
+- how to mount a local file into a Docker container with Terraform
+- how Docker volume mounts work
+- how to replace the default Nginx page with a custom HTML page
+- how Terraform handles infrastructure changes after updating container configuration
+
 ---
 
 ## ⚠️ Challenges & Solutions
@@ -271,6 +290,20 @@ After deployment, I wanted to see useful information without manually checking e
 ### Solution:
 
 I added `outputs.tf` to display the container name, image name, container ID and application URL after `terraform apply`.
+
+---
+
+### Problem:
+
+The default Nginx page was served instead of a custom project page.
+
+### Solution:
+
+I created a local `web/index.html` file and mounted it into the container path used by Nginx:
+
+```text
+/usr/share/nginx/html/index.html
+```
 
 ---
 
@@ -363,7 +396,10 @@ PHASE 2
 
 ```text
 terraform-docker-infra/
+├── images/terraform-docker-infra/
 ├── images/
+├── web/
+│   └── index.html
 ├── .gitignore
 ├── .terraform.lock.hcl
 ├── README.md
@@ -376,14 +412,15 @@ terraform-docker-infra/
 
 ## 📌 Future Improvements
 
-- serve a custom HTML page through Nginx
-- mount local files into the Docker container
 - introduce `terraform.tfvars`
-- make configuration easier to customize without editing `.tf` files directly
+- customize container name
+- customize exposed port
+- customize Docker image
+- change configuration values without editing `.tf` files directly
 - create reusable Terraform modules
 - deploy multiple containers
 - add GitHub Actions for Terraform validation
-- add more project screenshots
+- improve project structure for more advanced use cases
 
 ---
 

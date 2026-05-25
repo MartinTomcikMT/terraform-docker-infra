@@ -14,6 +14,6 @@ output "image_name" {
 }
 
 output "application_url" {
-  description = "Local URL where the Nginx container is available."
+  description = "Local URL where the custom Nginx page is available."
   value       = "http://localhost:${var.external_port}"
 }
