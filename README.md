@@ -15,6 +15,7 @@ PHASE 1
 * deploy a simple Nginx container with Terraform
 * learn the difference between Terraform configuration and real infrastructure
 * verify the deployed container locally through `localhost`
+* 
 PHASE 2  
 * improve Terraform project structure
 * replace hardcoded values with variables
