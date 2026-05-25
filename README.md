@@ -27,12 +27,20 @@ PHASE 3
 * mount local static web files into the Docker container
 * replace the default Nginx welcome page with custom web content (my devops overview page)
 
+PHASE 4
+* introduce `terraform.tfvars` for local configuration
+* customize container name without editing Terraform code directly
+* customize exposed port without editing Terraform code directly
+* customize Docker image through variable values
+* keep local configuration separate from committed project code
+* provide `terraform.tfvars.example` as a safe template for GitHub
+
 ---
 
 ## ⏱️ Project Status
 
-**Status:** Completed – Phase 3  
-**Current Phase:** Phase 3 – Custom Web Content  
+**Status:** Completed – Phase 4  
+**Current Phase:** Phase 4 – Parameterization with tfvars  
 **Type:** Infrastructure as Code / DevOps Lab  
 **Technologies:** Terraform, Docker, Nginx, WSL, VS Code
 
@@ -59,7 +67,11 @@ PHASE 3
 * Mounts the local `web/` directory into the Docker container
 * Replaces the default Nginx welcome page with personal static web content
 * Uses Terraform volume configuration to manage custom web content
-
+* Uses `terraform.tfvars` for local customization
+* Provides `terraform.tfvars.example` as a safe configuration template
+* Allows changing container name without editing `.tf` files
+* Allows changing exposed port without editing `.tf` files
+* Allows changing Docker image without editing `.tf` files
 ---
 
 ## 🛠️ Technologies Used
@@ -239,6 +251,13 @@ PHASE 3
 - how to replace the default Nginx page with a custom HTML page
 - how Terraform handles infrastructure changes after updating container configuration
 
+PHASE 4
+- how Terraform automatically loads values from `terraform.tfvars`
+- how to override default variable values without editing `.tf` files
+- how to keep local configuration separate from committed project code
+- how to provide a safe `terraform.tfvars.example` file for documentation
+- how changing tfvars values affects Terraform plan and infrastructure replacement
+
 ---
 
 ## ⚠️ Challenges & Solutions
@@ -304,6 +323,20 @@ I created a local `web/index.html` file and mounted it into the container path u
 ```text
 /usr/share/nginx/html/index.html
 ```
+
+---
+
+### Problem:
+
+I wanted to customize container name, exposed port and Docker image without editing Terraform code directly.
+
+### Solution:
+
+I introduced a local `terraform.tfvars` file and moved custom values there.
+
+Terraform automatically loads this file and uses its values to override defaults from `variables.tf`.
+
+To avoid committing local configuration, I also created `terraform.tfvars.example` as a safe template for GitHub.
 
 ---
 
@@ -422,13 +455,49 @@ PHASE 3
   </table>
 </p>
 
+PHASE 4
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="images/terraform-docker-infra_phase4_tfvars.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase4_tfvars.jpg" width="400">
+        </a><br/>
+        <sub>Terraform.tfvars</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase4_example.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase4_example.jpg" width="400">
+        </a><br/>
+        <sub>Terraform.tfvars.example</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase4_plan.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase4_plan.jpg" width="400">
+        </a><br/>
+        <sub>Terraform plan</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase4_apply.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase4_apply.jpg" width="400">
+        </a><br/>
+        <sub>Terraform plan</sub>
+      </td>
+      <td align="center">
+        <a href="images/terraform-docker-infra_phase4_output.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase4_output.jpg" width="400">
+        </a><br/>
+        <sub>Output</sub>
+      </td>
+    </tr>
+  </table>
+</p>
 ---
 
 ## 📃 Project Structure
 
 ```text
 terraform-docker-infra/
-├── images/terraform-docker-infra/
 ├── images/
 ├── web/
 │   └── index.html
@@ -438,18 +507,14 @@ terraform-docker-infra/
 ├── README.md
 ├── main.tf
 ├── variables.tf
-└── outputs.tf
+├── outputs.tf
+└── terraform.tfvars.example
 ```
 
 ---
 
 ## 📌 Future Improvements
 
-- introduce `terraform.tfvars`
-- customize container name
-- customize exposed port
-- customize Docker image
-- change configuration values without editing `.tf` files directly
 - create reusable Terraform modules
 - deploy multiple containers
 - add GitHub Actions for Terraform validation
