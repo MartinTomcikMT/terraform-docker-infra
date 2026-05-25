@@ -1,0 +1,4131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cloud / DevOps Knowledge Base</title>
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --line: #374151;
+      --accent: #38bdf8;
+      --accent2: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --card: #020617;
+      --code: #0b1220;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(56,189,248,.13), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(34,197,94,.09), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .wrap {
+      width: min(1500px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 390px;
+      display: flex;
+      align-items: center;
+      z-index: 1;
+      padding: 50px 24px 40px;
+      border-bottom: 1px solid rgba(56,189,248,.26);
+      overflow: hidden;
+      box-shadow: 0 24px 70px rgba(0,0,0,.46);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("./devops-hero2.png") right center / cover no-repeat;
+      z-index: -1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 16% 34%, rgba(56,189,248,.22), transparent 30%),
+        radial-gradient(circle at 82% 28%, rgba(34,197,94,.13), transparent 26%),
+        linear-gradient(180deg, transparent 0%, rgba(15,23,42,.94) 100%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+    }
+
+    .hero-title {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #e0f7ff;
+      font-size: clamp(34px, 5.6vw, 76px);
+      font-weight: 950;
+      letter-spacing: -0.065em;
+      line-height: .95;
+      text-align: left;
+      cursor: pointer;
+      text-shadow:
+        0 0 12px rgba(56,189,248,.64),
+        0 0 34px rgba(56,189,248,.38),
+        0 0 76px rgba(34,197,94,.18);
+    }
+
+    .hero-title:hover {
+      color: #ffffff;
+      filter: drop-shadow(0 0 18px rgba(56,189,248,.48));
+    }
+
+    .hero-subtitle {
+      margin: 0;
+      max-width: 920px;
+      color: #dbeafe;
+      font-size: clamp(15px, 1.5vw, 18px);
+      text-shadow: 0 1px 16px rgba(0,0,0,.8);
+    }
+
+    main.app-layout {
+      padding: 24px 0 64px;
+    }
+
+    .app-layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr) 230px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .side-panel,
+    .center-panel {
+      min-width: 0;
+    }
+
+    .panel-card {
+      border: 1px solid var(--line);
+      background: rgba(17,24,39,.86);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .sticky-panel {
+      position: sticky;
+      top: 18px;
+    }
+
+    .panel-title {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #bfdbfe;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .menu-title {
+      margin-top: 18px;
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select {
+      width: 100%;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 13px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(56,189,248,.14);
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 14px;
+      transition: .15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .left-panel input,
+    .left-panel select {
+      margin-bottom: 10px;
+    }
+
+    .side-nav {
+      margin: 0;
+      display: grid;
+      gap: 7px;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      padding: 9px 11px;
+      border-radius: 11px;
+      color: var(--muted);
+      background: rgba(31,41,55,.75);
+    }
+
+    .nav-btn.active {
+      color: #02131f;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      border-color: transparent;
+      font-weight: 850;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 0;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      background: rgba(2,6,23,.62);
+      border-radius: 15px;
+      padding: 13px;
+      box-shadow: none;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      color: white;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section {
+      margin: 0 0 28px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-desc {
+      margin: 4px 0 0;
+      color: var(--muted);
+      max-width: 850px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    details.card {
+      border: 1px solid var(--line);
+      background: rgba(2,6,23,.78);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    details.card[open] {
+      border-color: rgba(56,189,248,.55);
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 15px 16px;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .title strong {
+      font-size: 17px;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge {
+      white-space: nowrap;
+      font-size: 12px;
+      color: #bae6fd;
+      border: 1px solid rgba(56,189,248,.35);
+      background: rgba(56,189,248,.08);
+      padding: 5px 9px;
+      border-radius: 999px;
+    }
+
+    .content {
+      border-top: 1px solid var(--line);
+      padding: 15px 16px 17px;
+      background: rgba(15,23,42,.56);
+    }
+
+    .block {
+      margin: 0 0 15px;
+    }
+
+    .block h3 {
+      margin: 0 0 7px;
+      font-size: 14px;
+      color: #bfdbfe;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .block p {
+      margin: 0;
+      color: #d1d5db;
+    }
+
+    ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    code {
+      background: var(--code);
+      color: #a7f3d0;
+      border: 1px solid rgba(167,243,208,.18);
+      border-radius: 6px;
+      padding: 2px 5px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+    }
+
+    .questions li {
+      color: #fef3c7;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 16px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      text-align: center;
+      display: none;
+    }
+
+    .hidden-by-search {
+      display: none !important;
+    }
+
+    @media (max-width: 1180px) {
+      .app-layout {
+        grid-template-columns: 230px minmax(0, 1fr);
+      }
+
+      .right-panel {
+        display: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .hero {
+        min-height: 300px;
+        padding: 38px 18px 32px;
+        background-position: 63% center;
+      }
+
+      .app-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-panel {
+        position: static;
+      }
+
+      .side-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav-btn {
+        width: auto;
+        text-align: center;
+        border-radius: 999px;
+      }
+
+      .right-panel {
+        display: block;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .summary-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .badge {
+        white-space: normal;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      .hero,
+      .left-panel,
+      .right-panel {
+        display: none;
+      }
+
+      .app-layout {
+        display: block;
+      }
+
+      details.card {
+        break-inside: avoid;
+        border-color: #bbb;
+        background: white;
+        box-shadow: none;
+      }
+
+      details.card:not([open]) .content {
+        display: block;
+      }
+
+      .content {
+        background: white;
+      }
+
+      .badge,
+      .tagline,
+      .section-desc {
+        color: #333;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero-overlay"></div>
+
+    <div class="wrap hero-inner">
+      <h1>
+        <button id="homeReset" class="hero-title">
+          Cloud / DevOps <br>Knowledge Base
+        </button>
+      </h1>
+
+      <p class="hero-subtitle">
+        Overview for Azure, AWS, CI/CD, Terraform, Kubernetes, Docker,<br>
+        Windows, Linux, Networking, Git and other useful topics.
+      </p>
+    </div>
+  </header>
+
+  <main class="wrap app-layout">
+    <aside class="side-panel left-panel">
+      <div class="panel-card sticky-panel">
+        <h2 class="panel-title">Search</h2>
+
+        <input id="search" placeholder="Search for AKS, IAM, subnet, Dockerfile..." />
+
+        <select id="openMode">
+          <option value="normal">Clickable cards</option>
+          <option value="open">Open all</option>
+          <option value="closed">Close all</option>
+        </select>
+
+        <h2 class="panel-title menu-title">Topic menu</h2>
+        <nav id="nav" class="side-nav">
+          <button class="nav-btn active" data-group="All">All</button>
+          <button class="nav-btn" data-group="Azure">Azure</button>
+          <button class="nav-btn" data-group="AWS">AWS</button>
+          <button class="nav-btn" data-group="CI/CD">CI/CD</button>
+          <button class="nav-btn" data-group="Terraform">Terraform</button>
+          <button class="nav-btn" data-group="Kubernetes">Kubernetes</button>
+          <button class="nav-btn" data-group="Docker">Docker</button>
+          <button class="nav-btn" data-group="Windows">Windows</button>
+          <button class="nav-btn" data-group="Linux">Linux</button>
+          <button class="nav-btn" data-group="Networking">Networking</button>
+          <button class="nav-btn" data-group="Git">Git</button>
+          <button class="nav-btn" data-group="Extra overview">Extra overview</button>
+        </nav>
+      </div>
+    </aside>
+
+    <section class="center-panel">
+      <div id="content">
+        <div class="empty" id="emptyState">
+          Nothing was found. Try another term, for example subnet, IAM, AKS, Terraform, DNS or Docker.
+        </div>
+
+        <section class="section" id="azure" data-group="Azure">
+          <div class="section-head">
+            <div>
+              <h2>Azure</h2>
+              <p class="section-desc">Key Azure concepts, use cases, reminders and interview questions.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Entra ID</strong>
+                    <span class="tagline">Cloud identity provider for users, groups, applications and service principals.</span>
+                  </div>
+                  <span class="badge">Identity</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Entra ID is a cloud identity provider for users, groups, applications and service principals. It handles sign-in, SSO, MFA, Conditional Access and identities outside virtual machines or servers.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to control who or what can authenticate to Azure and enterprise applications. It is the foundation for app registrations, service principals and managed identities.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A tenant is an identity boundary.</li>
+                    <li>Authentication verifies who you are; authorization defines what you can do.</li>
+                    <li>A service principal is an application or automation identity.</li>
+                    <li>Managed identity removes the need to manually store and rotate secrets.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Entra ID and Azure RBAC?</li>
+                    <li>What is a service principal and where is it used?</li>
+                    <li>Why is managed identity safer than a stored client secret?</li>
+                    <li>What does Conditional Access solve?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure RBAC</strong>
+                    <span class="tagline">Role-Based Access Control for Azure resources.</span>
+                  </div>
+                  <span class="badge">Access control</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure RBAC defines permissions for Azure resources. Roles are assigned at a scope such as a management group, subscription, resource group or individual resource.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to apply least privilege. For example, a developer can be Reader in production, Contributor in a development resource group and a pipeline can deploy only to selected resources.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Permissions are inherited down the scope hierarchy.</li>
+                    <li>Common built-in roles are Owner, Contributor, Reader and User Access Administrator.</li>
+                    <li>Custom roles allow more precise permissions.</li>
+                    <li>RBAC is not the same as network rules.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How would you allow a pipeline to deploy only to one resource group?</li>
+                    <li>What is the difference between Owner and Contributor?</li>
+                    <li>What does least privilege mean?</li>
+                    <li>How does inheritance work in Azure RBAC?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Management Groups / Subscriptions / Resource Groups</strong>
+                    <span class="tagline">Azure hierarchy for governance, billing, policy and resource organization.</span>
+                  </div>
+                  <span class="badge">Governance</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>This is the hierarchy used to organize Azure environments. Management groups contain subscriptions, a subscription is a billing and isolation boundary, and a resource group is a logical container for resources.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for organizing environments, billing, policy, RBAC and resource lifecycle. Common patterns include separate development, test and production subscriptions.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A resource group has a region, but it can contain resources from multiple regions.</li>
+                    <li>Policy and RBAC can be applied higher in the hierarchy.</li>
+                    <li>Subscriptions have quotas and limits.</li>
+                    <li>Deleting a resource group deletes the resources inside it.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>When should environments be split into multiple subscriptions?</li>
+                    <li>What is a resource group and why is it important?</li>
+                    <li>What is the difference between a subscription and a tenant?</li>
+                    <li>How would you organize dev, test and production?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Policy</strong>
+                    <span class="tagline">Governance service for enforcing rules on Azure resources.</span>
+                  </div>
+                  <span class="badge">Governance</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Policy enforces rules over Azure resources. It can audit, deny or modify unwanted configurations such as missing tags, disallowed regions or public IP usage.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for compliance, standardization and guardrails. It helps ensure that teams deploy resources according to company rules.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A policy can audit, deny or modify.</li>
+                    <li>An initiative is a group of policies.</li>
+                    <li>Policy is not a replacement for monitoring or RBAC.</li>
+                    <li>It works well together with management groups.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How would you require every resource to have an owner tag?</li>
+                    <li>What is the difference between Azure Policy and RBAC?</li>
+                    <li>What is a policy initiative?</li>
+                    <li>What happens when a deny policy is triggered?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Virtual Network</strong>
+                    <span class="tagline">Private network in Azure for segmentation, routing and private connectivity.</span>
+                  </div>
+                  <span class="badge">Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Virtual Network is a private network in Azure. It contains address spaces, subnets, route tables, DNS settings and connects resources such as VMs, AKS and private endpoints.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for isolation and traffic control. It is the foundation for hybrid connectivity, segmentation and private access to PaaS services.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A subnet is part of a VNet address range.</li>
+                    <li>VNet peering connects Azure networks.</li>
+                    <li>CIDR ranges must not overlap when peering or connecting hybrid networks.</li>
+                    <li>NSG controls traffic at subnet or NIC level.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a subnet and why is it used?</li>
+                    <li>How do you connect two VNets?</li>
+                    <li>Why is overlapping CIDR a problem?</li>
+                    <li>What is the difference between a VNet and a subnet?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+                        <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Network Security Group</strong>
+                    <span class="tagline">Stateful firewall rules for inbound and outbound traffic in Azure.</span>
+                  </div>
+                  <span class="badge">Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A Network Security Group is a stateful set of firewall rules for inbound and outbound traffic at subnet or network interface level.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to allow or block traffic between subnets, virtual machines and the internet. A common example is allowing SSH or RDP only from an admin IP range.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Rules have priorities; lower numbers are evaluated first.</li>
+                    <li>NSG is stateful, so return traffic for an allowed connection is automatically allowed.</li>
+                    <li>Default rules always exist.</li>
+                    <li>NSG is not a Layer 7 firewall.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How would you allow SSH only from one IP address?</li>
+                    <li>What does priority mean in NSG rules?</li>
+                    <li>What is the difference between NSG and Azure Firewall?</li>
+                    <li>Is NSG stateful or stateless?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Firewall</strong>
+                    <span class="tagline">Managed network firewall for centralized traffic control and logging.</span>
+                  </div>
+                  <span class="badge">Security / Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Firewall is a managed network firewall for centralized protection. It supports network rules, application rules, NAT rules, threat intelligence and logging.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is commonly used in hub-and-spoke network architectures to control ingress and egress traffic, centralize logs and apply security rules consistently.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>It is useful for centralized traffic control.</li>
+                    <li>It supports FQDN rules for outbound HTTP/S traffic.</li>
+                    <li>It is often combined with route tables.</li>
+                    <li>It is not the same as an NSG.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>When would you use Azure Firewall instead of NSG?</li>
+                    <li>What is a hub-and-spoke network architecture?</li>
+                    <li>How do you force subnet traffic through a firewall?</li>
+                    <li>What are application rules?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>VPN Gateway / ExpressRoute</strong>
+                    <span class="tagline">Hybrid connectivity between on-premises networks and Azure.</span>
+                  </div>
+                  <span class="badge">Hybrid networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>VPN Gateway connects an on-premises network to Azure through an encrypted tunnel over the internet. ExpressRoute provides private dedicated connectivity outside the public internet.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>VPN is often cheaper and faster to set up. ExpressRoute is used for enterprise hybrid scenarios that require higher stability, throughput and predictable connectivity.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>VPN uses an IPsec tunnel.</li>
+                    <li>ExpressRoute is not an internet VPN.</li>
+                    <li>GatewaySubnet is a special subnet for the gateway.</li>
+                    <li>BGP is often used for dynamic routing.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Site-to-Site VPN and ExpressRoute?</li>
+                    <li>What is GatewaySubnet used for?</li>
+                    <li>What is BGP?</li>
+                    <li>How would you design hybrid connectivity to Azure?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Private Link / Private Endpoint / Private DNS</strong>
+                    <span class="tagline">Private access to Azure PaaS services through private IP addresses.</span>
+                  </div>
+                  <span class="badge">Private access</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A Private Endpoint gives a PaaS service a private IP address inside a VNet. Private Link enables private access to a service without using the public internet.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used when services such as Storage, SQL, Key Vault or other PaaS services should not be publicly reachable.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A private endpoint is a network interface with a private IP address.</li>
+                    <li>DNS is critical; otherwise clients may still resolve the public endpoint.</li>
+                    <li>Public network access is often disabled.</li>
+                    <li>NSG and routing behavior depends on the service configuration.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>Why must DNS be handled after creating a private endpoint?</li>
+                    <li>How do you disable public access to a Storage Account?</li>
+                    <li>What is the difference between service endpoint and private endpoint?</li>
+                    <li>What is Private Link?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Load Balancer</strong>
+                    <span class="tagline">Layer 4 load balancer for TCP and UDP traffic.</span>
+                  </div>
+                  <span class="badge">Load balancing</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Load Balancer is a Layer 4 load balancer for TCP and UDP traffic. It distributes traffic across backend instances such as VMs or VM Scale Sets.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for simple Layer 4 balancing, inbound NAT rules and internal or public load balancing scenarios.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>It works at Layer 4, not at HTTP path-routing level.</li>
+                    <li>Health probes determine backend health.</li>
+                    <li>It can be public or internal.</li>
+                    <li>For Layer 7 HTTP routing, Application Gateway or Front Door is usually better.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Azure Load Balancer and Application Gateway?</li>
+                    <li>What is a health probe?</li>
+                    <li>When would you use an internal load balancer?</li>
+                    <li>Which OSI layer does it operate on?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Application Gateway + WAF</strong>
+                    <span class="tagline">Layer 7 application delivery with HTTP routing and web protection.</span>
+                  </div>
+                  <span class="badge">Application delivery</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Application Gateway is a Layer 7 load balancer for HTTP/S applications. It supports TLS termination, host and path-based routing, cookie affinity and Web Application Firewall.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for web applications that need URL-based routing, HTTPS offload or protection against common web attacks.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>It works at Layer 7.</li>
+                    <li>WAF protects against common web attacks such as OWASP Top 10 patterns.</li>
+                    <li>The backend pool can contain VMs, App Service or AKS ingress targets.</li>
+                    <li>Listener, rule, backend pool and probe are core configuration parts.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>When would you use Application Gateway instead of Load Balancer?</li>
+                    <li>What does WAF do?</li>
+                    <li>What is TLS termination?</li>
+                    <li>How does path-based routing work?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Front Door / Traffic Manager</strong>
+                    <span class="tagline">Global routing, acceleration and failover for applications.</span>
+                  </div>
+                  <span class="badge">Global routing</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Front Door is a global Layer 7 entry point with routing, TLS, acceleration and WAF. Traffic Manager is DNS-based traffic routing by priority, performance or geography.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Front Door is useful for global web applications. Traffic Manager is useful for DNS failover or geographic routing.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Front Door proxies HTTP/S traffic.</li>
+                    <li>Traffic Manager returns DNS answers and is not a proxy.</li>
+                    <li>Front Door supports WAF.</li>
+                    <li>DNS TTL affects failover speed with Traffic Manager.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Front Door and Traffic Manager?</li>
+                    <li>Which service works through DNS?</li>
+                    <li>How would you design global failover for a web application?</li>
+                    <li>Where would you enable WAF?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Virtual Machines</strong>
+                    <span class="tagline">IaaS virtual servers where you manage the operating system and runtime.</span>
+                  </div>
+                  <span class="badge">Compute</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Virtual Machines are IaaS virtual servers. You manage the operating system, patching, software, disks, network and security.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used for legacy applications, custom workloads, Windows or Linux servers, or cases where PaaS and containers are not suitable.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A VM needs an OS disk and a network interface.</li>
+                    <li>Availability Sets and Zones improve availability.</li>
+                    <li>Managed disks simplify storage.</li>
+                    <li>Patching and hardening are the team's responsibility.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>When would you use a VM instead of App Service?</li>
+                    <li>How do you make VMs highly available?</li>
+                    <li>What is a managed disk?</li>
+                    <li>How do you restrict RDP or SSH access?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Virtual Machine Scale Sets</strong>
+                    <span class="tagline">A group of VM instances that can automatically scale.</span>
+                  </div>
+                  <span class="badge">Compute scaling</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Virtual Machine Scale Sets are groups of similar VM instances that can automatically scale based on rules or metrics.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used for horizontal scaling of VM-based applications, batch workers or backend pools behind a load balancer.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Autoscale can react to CPU, queue length or custom metrics.</li>
+                    <li>Instances use the same image or model.</li>
+                    <li>Rolling upgrades reduce downtime.</li>
+                    <li>VMSS is often combined with Load Balancer or Application Gateway.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is horizontal scaling?</li>
+                    <li>How does autoscale work in VMSS?</li>
+                    <li>What is the difference between VM and VMSS?</li>
+                    <li>How do you minimize downtime during updates?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure App Service</strong>
+                    <span class="tagline">Managed platform for hosting web applications and APIs.</span>
+                  </div>
+                  <span class="badge">PaaS compute</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure App Service is a managed platform for hosting web applications and APIs without managing servers. It supports deployment slots, autoscale, custom domains and TLS.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for websites and APIs when you want less infrastructure management than with virtual machines.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>The App Service Plan defines compute capacity.</li>
+                    <li>Deployment slots support blue/green style swaps.</li>
+                    <li>Runtime can be .NET, Java, Node.js, Python, PHP or a container.</li>
+                    <li>Scaling happens at the plan level.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is an App Service Plan?</li>
+                    <li>What are deployment slots used for?</li>
+                    <li>When would you use App Service instead of AKS?</li>
+                    <li>How are custom domains and TLS handled?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Functions</strong>
+                    <span class="tagline">Serverless compute for event-driven code.</span>
+                  </div>
+                  <span class="badge">Serverless</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Functions is serverless compute for event-driven code. A function can be triggered by an HTTP request, timer, queue message or event stream.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for small integration tasks, automation, event processing and background jobs without managing servers.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A trigger starts a function; a binding connects inputs or outputs.</li>
+                    <li>Consumption plan scales automatically but may have cold starts.</li>
+                    <li>Durable Functions support orchestration of longer workflows.</li>
+                    <li>It is not ideal for long-running monoliths.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What are triggers and bindings?</li>
+                    <li>What is a cold start?</li>
+                    <li>When would you use Azure Functions?</li>
+                    <li>What is the difference between Functions and App Service?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Container Apps</strong>
+                    <span class="tagline">Managed container platform without managing a Kubernetes cluster.</span>
+                  </div>
+                  <span class="badge">Containers</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Container Apps is a managed container platform based on Kubernetes concepts without requiring cluster management. It supports HTTP ingress, KEDA autoscaling and revisions.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for microservices, APIs, workers and event-driven containers when you do not want to operate AKS directly.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A Container Apps Environment is an isolation boundary.</li>
+                    <li>Revisions allow traffic splitting.</li>
+                    <li>KEDA scales based on events.</li>
+                    <li>It is simpler than AKS but less flexible.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>When would you use Container Apps instead of AKS?</li>
+                    <li>What is a revision?</li>
+                    <li>How does KEDA autoscaling work?</li>
+                    <li>How is ingress handled?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Kubernetes Service</strong>
+                    <span class="tagline">Managed Kubernetes service in Azure.</span>
+                  </div>
+                  <span class="badge">Kubernetes</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Kubernetes Service is a managed Kubernetes cluster in Azure. Azure manages the control plane, while you manage node pools, workloads, networking, security and add-ons.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for containerized microservices, complex deployments, autoscaling and cloud-native applications.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A node pool is a group of worker nodes.</li>
+                    <li>AKS can use Azure CNI or kubenet.</li>
+                    <li>Ingress Controller handles HTTP/S entry.</li>
+                    <li>Integration with ACR, Entra ID, Monitor and Key Vault is common.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What does Azure manage in AKS and what do you manage?</li>
+                    <li>What is the difference between pod, deployment and service?</li>
+                    <li>How do you connect AKS to ACR?</li>
+                    <li>How would you troubleshoot CrashLoopBackOff?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Container Registry</strong>
+                    <span class="tagline">Private registry for Docker and OCI images.</span>
+                  </div>
+                  <span class="badge">Container registry</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Container Registry is a private registry for Docker and OCI images and Helm charts. It is where AKS, Container Apps or pipelines can pull images from.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used in CI/CD flows: build an image, push it to ACR and deploy it to a runtime environment.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>It supports private registries.</li>
+                    <li>AKS can pull images using managed identity.</li>
+                    <li>Image tags should be controlled, for example with a commit SHA.</li>
+                    <li>ACR Tasks can build images.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a container registry used for?</li>
+                    <li>How do you secure image pulls from AKS?</li>
+                    <li>Why should you avoid always using the latest tag?</li>
+                    <li>What is an immutable image tag?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Storage Account</strong>
+                    <span class="tagline">Core Azure storage service for blobs, files, queues and tables.</span>
+                  </div>
+                  <span class="badge">Storage</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A Storage Account is the core Azure storage service for Blob, File, Queue and Table storage. It stores objects, file shares, messages and simple NoSQL table data.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for static files, backups, logs, data lakes, file shares, queue-based integrations and general object storage.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Blob is object storage.</li>
+                    <li>Azure Files is an SMB/NFS file share.</li>
+                    <li>Queue Storage is a simple message queue.</li>
+                    <li>Access tiers include Hot, Cool and Archive.</li>
+                    <li>SAS tokens provide time-limited access.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Blob and Azure Files?</li>
+                    <li>What is a SAS token?</li>
+                    <li>How do you disable public access?</li>
+                    <li>When would you use Hot versus Archive tier?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Key Vault</strong>
+                    <span class="tagline">Secure storage for secrets, keys and certificates.</span>
+                  </div>
+                  <span class="badge">Secrets</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Key Vault securely stores secrets, keys and certificates. It integrates with managed identities and access auditing.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for connection strings, API keys, certificates and encryption keys without storing secrets in source code or plaintext pipeline variables.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Secrets are values, keys are cryptographic keys and certificates are certificates.</li>
+                    <li>Access can be controlled through RBAC or access policies.</li>
+                    <li>Soft delete and purge protection help protect against accidental deletion.</li>
+                    <li>Applications should ideally access it through managed identity.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>Why should secrets not be stored in Git?</li>
+                    <li>How can an application safely read a secret from Key Vault?</li>
+                    <li>What is the difference between a secret and a key?</li>
+                    <li>What is purge protection?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Monitor / Log Analytics / Application Insights</strong>
+                    <span class="tagline">Monitoring, logs, metrics and application observability.</span>
+                  </div>
+                  <span class="badge">Monitoring</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Monitor collects metrics and logs. Log Analytics provides KQL queries. Application Insights monitors applications, requests, dependencies and exceptions.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for observability, alerts, troubleshooting, performance analysis and audit.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Metrics are numeric time series.</li>
+                    <li>Logs are detailed events and records.</li>
+                    <li>KQL is the query language for logs.</li>
+                    <li>Alerts can react to metrics or log queries.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between metrics and logs?</li>
+                    <li>What is Application Insights used for?</li>
+                    <li>What is KQL?</li>
+                    <li>How would you investigate an API latency incident?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Service Bus / Event Grid / Event Hubs</strong>
+                    <span class="tagline">Azure messaging and event services for decoupled systems.</span>
+                  </div>
+                  <span class="badge">Messaging</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Service Bus is an enterprise message broker with queues and topics. Event Grid routes events. Event Hubs is a high-throughput streaming ingestion service.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Service Bus is used for reliable messages and decoupling. Event Grid is used for reacting to events. Event Hubs is used for large volumes of telemetry or streaming data.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Queue usually means one consumer receives a message.</li>
+                    <li>Topic and subscription provide publish-subscribe.</li>
+                    <li>Event Grid delivers events.</li>
+                    <li>Event Hubs is similar to a stream ingestion system.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Service Bus and Event Grid?</li>
+                    <li>When would you use a topic instead of a queue?</li>
+                    <li>What is a dead-letter queue?</li>
+                    <li>When would you use Event Hubs?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure API Management</strong>
+                    <span class="tagline">Managed API gateway for publishing, securing and monitoring APIs.</span>
+                  </div>
+                  <span class="badge">API gateway</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure API Management is a managed API gateway for publishing, securing, transforming and monitoring APIs. It supports policies, rate limiting, subscriptions and a developer portal.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used as an entry layer in front of backend APIs when unified authentication, throttling, versioning and API documentation are required.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A policy can modify requests or responses.</li>
+                    <li>Rate limiting protects the backend.</li>
+                    <li>APIM is not the backend application.</li>
+                    <li>It can be public or internal.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is an API gateway used for?</li>
+                    <li>What is rate limiting?</li>
+                    <li>How would you hide a backend API from direct internet access?</li>
+                    <li>What are APIM policies?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure DevOps / Pipelines</strong>
+                    <span class="tagline">Repos, boards, pipelines, artifacts and CI/CD automation.</span>
+                  </div>
+                  <span class="badge">CI/CD</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure DevOps is a platform for repos, boards, pipelines, artifacts and test plans. Azure Pipelines automates build, test and deployment.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for CI/CD of applications and infrastructure. YAML pipelines define build, test and deploy steps as code.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A pipeline agent runs jobs.</li>
+                    <li>A stage can represent development, test or production.</li>
+                    <li>A service connection gives a pipeline access to the cloud.</li>
+                    <li>Secrets belong in variable groups, Key Vault or secure storage.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between CI and CD?</li>
+                    <li>What is a service connection?</li>
+                    <li>How would you deploy Terraform through a pipeline?</li>
+                    <li>How do you protect secrets in a pipeline?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="aws" data-group="AWS">
+          <div class="section-head">
+            <div>
+              <h2>AWS</h2>
+              <p class="section-desc">Key AWS concepts, use cases, reminders and interview questions.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>IAM</strong>
+                    <span class="tagline">Identity and Access Management for AWS users, roles and policies.</span>
+                  </div>
+                  <span class="badge">Identity</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>IAM controls users, groups, roles, policies and permissions in AWS. It is the security foundation of every AWS account.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to grant permissions to people, applications, EC2 instances, Lambda functions and CI/CD pipelines.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A policy is a JSON document with Allow or Deny statements.</li>
+                    <li>A role is assumed and uses temporary credentials.</li>
+                    <li>Explicit Deny takes precedence.</li>
+                    <li>The root account should not be used for daily work.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between an IAM user and an IAM role?</li>
+                    <li>What is least privilege?</li>
+                    <li>How does AssumeRole work?</li>
+                    <li>Why is the root account risky?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>AWS Organizations / Accounts</strong>
+                    <span class="tagline">Multi-account governance, billing and Service Control Policies.</span>
+                  </div>
+                  <span class="badge">Governance</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>AWS Organizations manages multiple AWS accounts. It supports organizational units, consolidated billing and Service Control Policies.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to separate development, test, production, teams, security accounts and centralized enterprise rules.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>An account is a strong isolation boundary.</li>
+                    <li>SCP limits the maximum allowed permissions.</li>
+                    <li>The management account must be protected.</li>
+                    <li>A multi-account strategy is a common enterprise pattern.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>Why use multiple AWS accounts?</li>
+                    <li>What is an SCP?</li>
+                    <li>What is the difference between an IAM policy and an SCP?</li>
+                    <li>How would you separate production from development?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>VPC</strong>
+                    <span class="tagline">Isolated virtual network in AWS.</span>
+                  </div>
+                  <span class="badge">Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Virtual Private Cloud is an isolated virtual network in AWS. It contains CIDR ranges, subnets, route tables, gateways, endpoints and security controls.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for network isolation and traffic control between EC2, RDS, EKS, the internet and on-premises networks.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A subnet is tied to an Availability Zone.</li>
+                    <li>A public subnet has a route to an Internet Gateway.</li>
+                    <li>A private subnet has no direct inbound internet access.</li>
+                    <li>CIDR planning should be done in advance.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between a public and private subnet?</li>
+                    <li>What is a route table?</li>
+                    <li>How does a private subnet get outbound internet access?</li>
+                    <li>Why is overlapping CIDR a problem?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Subnets / NAT Gateway / Internet Gateway</strong>
+                    <span class="tagline">Core VPC routing building blocks.</span>
+                  </div>
+                  <span class="badge">Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Subnets divide a VPC by Availability Zone and purpose. Route tables define routing. Internet Gateway enables internet access for public subnets. NAT Gateway gives private subnets outbound internet access.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for common architectures such as public subnets for load balancers and private subnets for applications and databases.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>NAT Gateway is for outbound traffic from private subnets.</li>
+                    <li>Internet Gateway enables public internet routing.</li>
+                    <li>A public IP alone is not enough without a route.</li>
+                    <li>Route 0.0.0.0/0 defines the default route.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do you allow a private EC2 instance to download updates from the internet?</li>
+                    <li>What is NAT Gateway used for?</li>
+                    <li>What does Internet Gateway do?</li>
+                    <li>Why place a database in a private subnet?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Security Groups / NACL</strong>
+                    <span class="tagline">Network security controls at instance and subnet level.</span>
+                  </div>
+                  <span class="badge">Network security</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A Security Group is a stateful firewall at ENI or instance level. A NACL is a stateless firewall at subnet level.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Security Groups are used most often for application-level network rules. NACLs provide an additional subnet-level control layer.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Security Group is stateful.</li>
+                    <li>NACL is stateless and needs both inbound and outbound rules.</li>
+                    <li>Security Groups do not have explicit deny, only allow.</li>
+                    <li>NACL rules have numbers and are evaluated in order.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Security Group and NACL?</li>
+                    <li>What does stateful mean?</li>
+                    <li>Why does NACL need ephemeral ports?</li>
+                    <li>How do you allow HTTP only from a load balancer?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Route 53</strong>
+                    <span class="tagline">AWS managed DNS service.</span>
+                  </div>
+                  <span class="badge">DNS</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Route 53 is the AWS managed DNS service. It handles hosted zones, DNS records, health checks and routing policies.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for domain management and routing traffic to ALB, CloudFront, S3 static hosting or regional failover targets.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A hosted zone contains DNS records.</li>
+                    <li>Alias records point to AWS resources and avoid CNAME limitations at the root domain.</li>
+                    <li>TTL affects caching.</li>
+                    <li>Routing policies include simple, weighted, latency, failover and geolocation.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a hosted zone?</li>
+                    <li>What is the difference between A, CNAME and Alias records?</li>
+                    <li>How do you implement DNS failover?</li>
+                    <li>What does TTL mean?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>CloudFront</strong>
+                    <span class="tagline">Global CDN for caching and accelerating content.</span>
+                  </div>
+                  <span class="badge">CDN</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>CloudFront is a Content Delivery Network that caches content at edge locations. It supports TLS, WAF integration, signed URLs and origins such as S3 or ALB.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to speed up websites, distribute static files, protect origins and improve global availability.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>An origin is the source of content.</li>
+                    <li>A cache behavior defines cache and routing rules.</li>
+                    <li>Invalidation removes a cached object.</li>
+                    <li>CloudFront is a global service.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a CDN used for?</li>
+                    <li>What is an origin?</li>
+                    <li>When should you perform cache invalidation?</li>
+                    <li>How do you protect an S3 bucket behind CloudFront?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>ELB / ALB / NLB</strong>
+                    <span class="tagline">AWS load balancing for Layer 7 and Layer 4 traffic.</span>
+                  </div>
+                  <span class="badge">Load balancing</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Elastic Load Balancing distributes traffic across targets. ALB is Layer 7 for HTTP/S. NLB is Layer 4 for TCP/UDP and high-performance workloads.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>ALB is used for web applications, host/path routing and TLS termination. NLB is used for low latency, TCP traffic or static IP requirements.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A target group contains backend targets.</li>
+                    <li>Health checks determine target health.</li>
+                    <li>ALB supports path-based routing.</li>
+                    <li>NLB works at Layer 4.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between ALB and NLB?</li>
+                    <li>What is a target group?</li>
+                    <li>How does a health check work?</li>
+                    <li>Where would you terminate TLS?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>EC2</strong>
+                    <span class="tagline">AWS virtual servers where you manage the operating system.</span>
+                  </div>
+                  <span class="badge">Compute</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Elastic Compute Cloud provides virtual servers in AWS. You manage the operating system, patching, runtime, network and security.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for legacy workloads, custom servers, applications outside PaaS/serverless models or when full OS control is required.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>AMI is the image for an instance.</li>
+                    <li>Instance type defines CPU, memory and network capacity.</li>
+                    <li>User data runs a bootstrap script.</li>
+                    <li>Instance profile attaches an IAM role to EC2.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is an AMI?</li>
+                    <li>How do you give EC2 secure access to S3 without access keys?</li>
+                    <li>What is user data?</li>
+                    <li>How do you make EC2 applications highly available?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Auto Scaling Group</strong>
+                    <span class="tagline">EC2 fleet scaling and self-healing.</span>
+                  </div>
+                  <span class="badge">Scaling</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>An Auto Scaling Group maintains desired EC2 capacity and can scale based on rules or metrics.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for horizontal scaling and self-healing of an EC2 fleet behind a load balancer.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A launch template defines instance configuration.</li>
+                    <li>Desired, minimum and maximum capacity control the number of instances.</li>
+                    <li>Scaling policies can react to CPU or custom metrics.</li>
+                    <li>ASG replaces unhealthy instances.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is desired capacity?</li>
+                    <li>How does ASG react to a failed instance?</li>
+                    <li>What is a launch template?</li>
+                    <li>What is the difference between vertical and horizontal scaling?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+                        <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>S3</strong>
+                    <span class="tagline">Object storage for files, backups, logs and static content.</span>
+                  </div>
+                  <span class="badge">Object storage</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Amazon S3 is object storage for files, backups, static hosting, logs and data lakes.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to store objects using a bucket/key model. It is common in CI/CD, data pipelines, backups and web distribution.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A bucket is a container; an object is a file with a key.</li>
+                    <li>Versioning protects against overwrite or deletion.</li>
+                    <li>Lifecycle policies move or delete objects.</li>
+                    <li>Bucket policies and IAM policies control access.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between S3 and EBS?</li>
+                    <li>How do you block public access?</li>
+                    <li>What is a lifecycle policy?</li>
+                    <li>What is versioning used for?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>EBS / EFS / FSx</strong>
+                    <span class="tagline">Block and file storage options in AWS.</span>
+                  </div>
+                  <span class="badge">Storage</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>EBS is block storage for EC2. EFS is a managed NFS file system for multiple clients. FSx provides managed file systems such as Windows File Server or Lustre.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>EBS is used as a disk for one EC2 instance. EFS is used for shared files across instances. FSx is used for enterprise or high-performance file workloads.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>EBS is usually attached to one instance in one Availability Zone.</li>
+                    <li>EFS is a regional managed NFS service.</li>
+                    <li>Snapshots are used for EBS backup.</li>
+                    <li>File, block and object storage solve different needs.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between EBS, EFS and S3?</li>
+                    <li>When would you use EFS?</li>
+                    <li>What is an EBS snapshot?</li>
+                    <li>Why is EBS not ideal as a shared file system?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Lambda</strong>
+                    <span class="tagline">Serverless compute for event-driven functions.</span>
+                  </div>
+                  <span class="badge">Serverless</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>AWS Lambda runs functions based on events without managing servers. It can be triggered by API Gateway, S3 events, EventBridge or SQS.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for event-driven automation, API backends, file processing, scheduled jobs and integration logic.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>You pay for invocations and duration.</li>
+                    <li>Cold starts can affect latency.</li>
+                    <li>The execution role gives permissions to the function.</li>
+                    <li>Timeout and memory must match the workload.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a cold start?</li>
+                    <li>How does Lambda get permission to read S3?</li>
+                    <li>When is Lambda not suitable?</li>
+                    <li>How would you troubleshoot a timeout?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>ECS / Fargate</strong>
+                    <span class="tagline">AWS container orchestration without full Kubernetes complexity.</span>
+                  </div>
+                  <span class="badge">Containers</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Elastic Container Service is the AWS container orchestrator. Fargate is serverless compute for ECS and EKS where you do not manage EC2 nodes.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to run containers without the full complexity of Kubernetes. Fargate simplifies operations, while ECS on EC2 gives more control.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A task definition describes the container, CPU, memory, environment variables and ports.</li>
+                    <li>A service maintains the desired number of running tasks.</li>
+                    <li>A cluster is a logical container for tasks and services.</li>
+                    <li>Fargate removes server management.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between ECS and EKS?</li>
+                    <li>What is a task definition?</li>
+                    <li>When would you use Fargate?</li>
+                    <li>How does an ECS service work with ALB?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>EKS</strong>
+                    <span class="tagline">Managed Kubernetes service in AWS.</span>
+                  </div>
+                  <span class="badge">Kubernetes</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Elastic Kubernetes Service is managed Kubernetes in AWS. AWS manages the control plane, while you manage worker nodes, add-ons, networking and workloads.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used when a team needs the Kubernetes API, Helm, operators, GitOps and a portable cloud-native platform.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Node groups can be managed or self-managed.</li>
+                    <li>IRSA connects a Kubernetes service account to an IAM role.</li>
+                    <li>EKS uses the VPC CNI plugin.</li>
+                    <li>Ingress often uses AWS Load Balancer Controller.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is IRSA?</li>
+                    <li>What does AWS manage in EKS?</li>
+                    <li>How is ALB created for Kubernetes ingress?</li>
+                    <li>What is the difference between ECS and EKS?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>ECR</strong>
+                    <span class="tagline">Private container image registry in AWS.</span>
+                  </div>
+                  <span class="badge">Container registry</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Elastic Container Registry is a private registry for container images. It integrates with ECS, EKS, Lambda and IAM.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used in CI/CD pipelines to store an image after build and deploy it to a container runtime.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Image push and pull are controlled by IAM permissions.</li>
+                    <li>Tagging with commit SHA improves traceability.</li>
+                    <li>Lifecycle rules clean old images.</li>
+                    <li>ECR can scan images for vulnerabilities.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is ECR used for?</li>
+                    <li>How does a pipeline push an image to ECR?</li>
+                    <li>Why avoid relying only on the latest tag?</li>
+                    <li>How do you clean up old images?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>RDS / Aurora</strong>
+                    <span class="tagline">Managed relational databases in AWS.</span>
+                  </div>
+                  <span class="badge">Database</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>RDS is a managed relational database service for engines such as PostgreSQL, MySQL, MariaDB, SQL Server and Oracle. Aurora is an AWS-optimized MySQL/PostgreSQL-compatible database.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used when you need a relational database without managing the operating system, patching and most infrastructure tasks.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Multi-AZ provides high availability.</li>
+                    <li>Read replicas improve read scaling.</li>
+                    <li>Backup and point-in-time restore are important.</li>
+                    <li>Security groups and subnet groups control networking.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between RDS and a database on EC2?</li>
+                    <li>What is Multi-AZ?</li>
+                    <li>What is the difference between read replica and Multi-AZ?</li>
+                    <li>How do you secure RDS in private subnets?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>DynamoDB</strong>
+                    <span class="tagline">Managed NoSQL key-value and document database.</span>
+                  </div>
+                  <span class="badge">NoSQL database</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>DynamoDB is a managed NoSQL key-value and document database with high scalability and low latency.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for serverless applications, session storage, event data, high-scale key-value access and simple NoSQL data models.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Partition key determines data distribution.</li>
+                    <li>Sort key enables ordering inside a partition.</li>
+                    <li>GSI and LSI are indexes.</li>
+                    <li>On-demand or provisioned capacity controls throughput.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a partition key?</li>
+                    <li>When would you use DynamoDB instead of RDS?</li>
+                    <li>What is a GSI?</li>
+                    <li>How do you avoid hot partitions?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>SQS / SNS / EventBridge</strong>
+                    <span class="tagline">AWS messaging and event routing services.</span>
+                  </div>
+                  <span class="badge">Messaging</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>SQS is a message queue. SNS is a pub/sub notification service. EventBridge is an event bus for routing events between services and applications.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used for decoupling, retries, event-driven architecture and asynchronous communication.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>SQS uses a pull model.</li>
+                    <li>SNS pushes messages to subscribers.</li>
+                    <li>EventBridge routes events using rules.</li>
+                    <li>DLQ helps handle failed messages.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between SQS and SNS?</li>
+                    <li>What is a dead-letter queue?</li>
+                    <li>When would you use EventBridge?</li>
+                    <li>How do you prevent message loss?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>API Gateway</strong>
+                    <span class="tagline">Managed entry layer for APIs.</span>
+                  </div>
+                  <span class="badge">API gateway</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>API Gateway is a managed entry layer for REST, HTTP and WebSocket APIs. It integrates with Lambda, private integrations and other backends.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to publish APIs with authentication, throttling, request transformation and metrics.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A stage represents a deployment version or environment.</li>
+                    <li>An authorizer handles authentication and authorization.</li>
+                    <li>Throttling protects the backend.</li>
+                    <li>It is often combined with Lambda.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is API Gateway used for?</li>
+                    <li>How do you protect an API from excessive traffic?</li>
+                    <li>What is a Lambda authorizer?</li>
+                    <li>What is the difference between REST API and HTTP API?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>CloudWatch / CloudTrail / AWS Config</strong>
+                    <span class="tagline">Monitoring, audit and configuration tracking in AWS.</span>
+                  </div>
+                  <span class="badge">Observability / Audit</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>CloudWatch collects metrics, logs and alerts. CloudTrail audits AWS API calls. AWS Config tracks resource configuration and compliance.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used for monitoring, audit, incident investigation and compliance reporting.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>CloudWatch is runtime monitoring.</li>
+                    <li>CloudTrail shows who called what AWS API.</li>
+                    <li>Config shows resource configuration state and compliance.</li>
+                    <li>Log retention must be configured.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between CloudWatch and CloudTrail?</li>
+                    <li>How do you find who deleted a resource?</li>
+                    <li>What is AWS Config used for?</li>
+                    <li>How do you create an alert for high CPU?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Systems Manager</strong>
+                    <span class="tagline">Operations management for AWS instances and automation.</span>
+                  </div>
+                  <span class="badge">Operations</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>AWS Systems Manager helps manage instances, run commands, patch systems, store parameters and access instances through Session Manager.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for secure EC2 administration without opening SSH/RDP to the internet, patch management and operations automation.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>SSM Agent must run on the instance.</li>
+                    <li>The instance needs an IAM role.</li>
+                    <li>Session Manager can replace direct SSH/RDP in many scenarios.</li>
+                    <li>Parameter Store can hold configuration and secrets.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do you connect to EC2 without a public IP?</li>
+                    <li>What is Session Manager?</li>
+                    <li>What conditions does EC2 need for SSM?</li>
+                    <li>What is the difference between Parameter Store and Secrets Manager?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Secrets Manager / Parameter Store / KMS</strong>
+                    <span class="tagline">Secrets and encryption key management in AWS.</span>
+                  </div>
+                  <span class="badge">Secrets / Encryption</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Secrets Manager manages secrets and rotation. Parameter Store holds configuration parameters and can store secure strings. KMS manages encryption keys.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used to securely store passwords, connection strings, API keys and encryption keys without putting them in code.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>KMS keys encrypt data or data keys.</li>
+                    <li>Secrets Manager supports secret rotation.</li>
+                    <li>IAM policies control access to secrets.</li>
+                    <li>Never commit secrets to Git.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>When would you use Secrets Manager versus Parameter Store?</li>
+                    <li>What does KMS do?</li>
+                    <li>How does an application securely read a secret?</li>
+                    <li>How do you handle password rotation?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="cicd" data-group="CI/CD">
+          <div class="section-head">
+            <div>
+              <h2>CI/CD</h2>
+              <p class="section-desc">Pipeline concepts, release strategies and automation security.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>CI vs CD</strong>
+                    <span class="tagline">Continuous Integration, Continuous Delivery and Continuous Deployment.</span>
+                  </div>
+                  <span class="badge">Pipeline basics</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>CI means Continuous Integration: regular build, test and integration of changes. CD can mean Continuous Delivery or Continuous Deployment.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>CI reduces merge risk. CD automates the release process and shortens the time from commit to production.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Continuous Delivery prepares a release, but production deployment may require manual approval.</li>
+                    <li>Continuous Deployment deploys automatically after checks pass.</li>
+                    <li>A pipeline should be repeatable.</li>
+                    <li>Every build should have a traceable artifact.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Continuous Delivery and Continuous Deployment?</li>
+                    <li>What should a CI pipeline do?</li>
+                    <li>Why is an artifact important?</li>
+                    <li>How do you prevent breaking the main branch?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Pipeline stages</strong>
+                    <span class="tagline">Typical pipeline stages from source code to deployment.</span>
+                  </div>
+                  <span class="badge">Pipeline design</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Typical stages are checkout, build, unit tests, static analysis, package, security scan, publish artifact, deploy to dev/test/prod and smoke tests.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Stages separate steps, configure approvals, retries, rollback and provide a clear release flow.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Fail fast saves time.</li>
+                    <li>Tests should run as early as possible.</li>
+                    <li>Secrets must not appear in logs.</li>
+                    <li>Production deploys should have an audit trail.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What would a pipeline for a web API look like?</li>
+                    <li>Where would you add a security scan?</li>
+                    <li>How would you handle production approvals?</li>
+                    <li>How do you keep deployment logs?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Deployment strategies</strong>
+                    <span class="tagline">Rolling, blue/green, canary and feature flags.</span>
+                  </div>
+                  <span class="badge">Release</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Common deployment strategies include rolling update, blue/green, canary and feature flags.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used to reduce deployment risk. Canary releases expose a new version to a small group of users. Blue/green keeps two environments.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Rolling updates change instances gradually.</li>
+                    <li>Blue/green enables fast rollback by switching traffic.</li>
+                    <li>Canary requires good monitoring.</li>
+                    <li>Feature flags separate deployment from release.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between blue/green and canary?</li>
+                    <li>How would you perform rollback?</li>
+                    <li>What should you monitor during a canary release?</li>
+                    <li>Why use feature flags?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Pipeline security</strong>
+                    <span class="tagline">Security controls for automated build and deployment pipelines.</span>
+                  </div>
+                  <span class="badge">Security</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Pipeline security includes protecting secrets, least privilege, approvals, audit, dependency scanning, image scanning and artifact signing.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Pipelines often have high privileges, so they are critical security points.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Use short-lived credentials or identity federation.</li>
+                    <li>Service connections should have minimal permissions.</li>
+                    <li>Pull requests from unknown forks should not automatically receive secrets.</li>
+                    <li>Artifacts should be immutable.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do you protect secrets in CI/CD?</li>
+                    <li>Why avoid long-lived access keys?</li>
+                    <li>What is supply chain security?</li>
+                    <li>How do you limit pipeline permissions?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="terraform" data-group="Terraform">
+          <div class="section-head">
+            <div>
+              <h2>Terraform</h2>
+              <p class="section-desc">Infrastructure as Code and Terraform concepts you should be able to explain.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Terraform core</strong>
+                    <span class="tagline">Infrastructure as Code using declarative HCL configuration.</span>
+                  </div>
+                  <span class="badge">IaC</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Terraform is an Infrastructure as Code tool. You describe infrastructure declaratively in HCL, and Terraform creates or changes resources through providers.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to create repeatable and auditable infrastructure in Azure, AWS, Kubernetes and other platforms.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Declarative means describing the desired state.</li>
+                    <li>A provider communicates with the cloud API.</li>
+                    <li>A resource is a managed object.</li>
+                    <li>A data source reads existing data.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is Infrastructure as Code?</li>
+                    <li>What does a provider do?</li>
+                    <li>What is the difference between resource and data source?</li>
+                    <li>Why is Terraform better than manually clicking in a portal?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>State</strong>
+                    <span class="tagline">Terraform state maps configuration to real resources.</span>
+                  </div>
+                  <span class="badge">Terraform state</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>State maps Terraform configuration to real resources. Terraform uses it to know what exists and what needs to change.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Without state, Terraform could not reliably plan changes. Teams usually use a remote backend with locking.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>State can contain sensitive values.</li>
+                    <li>Remote backend enables team collaboration.</li>
+                    <li>State locking prevents parallel apply operations.</li>
+                    <li>State should not be edited manually unless necessary.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is Terraform state used for?</li>
+                    <li>Why not use local state in a team?</li>
+                    <li>What is state locking?</li>
+                    <li>What is drift?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Plan / Apply / Destroy / Import</strong>
+                    <span class="tagline">Core Terraform workflow commands.</span>
+                  </div>
+                  <span class="badge">Workflow</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p><code>terraform plan</code> shows proposed changes. <code>terraform apply</code> performs them. <code>destroy</code> removes resources. <code>import</code> attaches an existing resource to state.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>A common safe workflow is fmt, validate, plan, review and apply. In pipelines, the plan is often approved before apply.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A plan is not a guarantee that apply will succeed because reality can change.</li>
+                    <li>Import does not always generate ideal code.</li>
+                    <li>Destroy is dangerous in production.</li>
+                    <li>Plan output should be reviewed.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What does terraform plan do?</li>
+                    <li>When would you use import?</li>
+                    <li>How would you design a Terraform pipeline?</li>
+                    <li>How do you prevent accidental destroy?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Modules, variables, outputs</strong>
+                    <span class="tagline">Reusable Terraform code and parameters.</span>
+                  </div>
+                  <span class="badge">Reusable code</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A module is reusable Terraform code. Variables parameterize input. Outputs return values to the user or another module.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to standardize infrastructure and reduce duplication, for example with a VNet/VPC or AKS/EKS module.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>The root module is the current project.</li>
+                    <li>A child module is a called module.</li>
+                    <li>Module versioning is important.</li>
+                    <li>Variables should have types and validation.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>Why use modules?</li>
+                    <li>How would you design a network module?</li>
+                    <li>What are outputs?</li>
+                    <li>How do you manage module versions?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Workspaces, environments, drift</strong>
+                    <span class="tagline">Environment separation and configuration drift.</span>
+                  </div>
+                  <span class="badge">Operations</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Workspaces hold multiple state files for the same configuration. Environments can be handled with workspaces, separate directories or separate pipelines and state files.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to separate development, test and production, but clear state and configuration separation is often preferred in real projects.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Drift is a difference between code/state and reality.</li>
+                    <li>Terraform plan helps detect drift.</li>
+                    <li>Workspace is not a security boundary.</li>
+                    <li>Production state must be protected.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is drift?</li>
+                    <li>How do you manage dev, test and production in Terraform?</li>
+                    <li>When are workspaces useful?</li>
+                    <li>How do you handle manual changes made outside Terraform?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="kubernetes" data-group="Kubernetes">
+          <div class="section-head">
+            <div>
+              <h2>Kubernetes</h2>
+              <p class="section-desc">Core Kubernetes workload, networking, security and troubleshooting concepts.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Cluster, node, pod</strong>
+                    <span class="tagline">The core building blocks of Kubernetes.</span>
+                  </div>
+                  <span class="badge">Core</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A cluster is a Kubernetes environment. A node is a worker server. A pod is the smallest deployment unit and contains one or more containers.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Kubernetes is used for container orchestration, scheduling, self-healing, service discovery and rolling deployments.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A pod has its own IP address.</li>
+                    <li>Containers in a pod share the network namespace.</li>
+                    <li>A pod is temporary, so production workloads are usually managed by controllers.</li>
+                    <li>The control plane manages cluster state.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a pod?</li>
+                    <li>What is the difference between a pod and a container?</li>
+                    <li>What does the control plane do?</li>
+                    <li>Why is a standalone pod not ideal for production?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Deployment, ReplicaSet, StatefulSet, DaemonSet</strong>
+                    <span class="tagline">Kubernetes workload controllers.</span>
+                  </div>
+                  <span class="badge">Workloads</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Deployment manages stateless applications and ReplicaSets. StatefulSet handles stateful applications with stable identity. DaemonSet runs a pod on every node.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Deployment is used for web/API services. StatefulSet is used for databases or systems with identity. DaemonSet is used for agents, log collectors and node components.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Deployment supports rolling update and rollback.</li>
+                    <li>StatefulSet provides stable name and storage.</li>
+                    <li>DaemonSet typically runs on every node.</li>
+                    <li>ReplicaSet maintains the number of replicas.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Deployment and StatefulSet?</li>
+                    <li>What is DaemonSet used for?</li>
+                    <li>How do you roll back a deployment?</li>
+                    <li>What is ReplicaSet?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Service, Ingress, DNS</strong>
+                    <span class="tagline">Stable access and routing for dynamic pods.</span>
+                  </div>
+                  <span class="badge">Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Service provides a stable endpoint for pods. Ingress exposes HTTP/S services outside the cluster through an ingress controller. Kubernetes DNS enables service discovery.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used because pods are dynamic and their IPs change. Service and DNS provide stable communication.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>ClusterIP is an internal service.</li>
+                    <li>NodePort exposes a port on nodes.</li>
+                    <li>LoadBalancer creates a cloud load balancer.</li>
+                    <li>Ingress requires an ingress controller.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between Service and Ingress?</li>
+                    <li>What are the Kubernetes Service types?</li>
+                    <li>Why do you need an ingress controller?</li>
+                    <li>How does service discovery work?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>ConfigMap, Secret, RBAC</strong>
+                    <span class="tagline">Configuration and Kubernetes API permissions.</span>
+                  </div>
+                  <span class="badge">Configuration / Security</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>ConfigMap stores non-sensitive configuration. Secret stores sensitive values. RBAC defines who or what can perform actions against the Kubernetes API.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to separate configuration from images and control access for users, service accounts and automation.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Secret is not automatically a strong security solution without encryption and proper access controls.</li>
+                    <li>ServiceAccount is the workload identity in a cluster.</li>
+                    <li>Role and ClusterRole define permissions.</li>
+                    <li>RoleBinding and ClusterRoleBinding assign permissions.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between ConfigMap and Secret?</li>
+                    <li>What is ServiceAccount?</li>
+                    <li>How does Kubernetes RBAC work?</li>
+                    <li>Why should you avoid granting cluster-admin broadly?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Probes, resources, autoscaling</strong>
+                    <span class="tagline">Health checks, resource control and horizontal scaling.</span>
+                  </div>
+                  <span class="badge">Reliability</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Liveness, readiness and startup probes monitor application state. Requests and limits define CPU/RAM needs. HPA scales replica count based on metrics.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for deployment stability, correct traffic routing and efficient cluster utilization.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Readiness defines whether a pod receives traffic.</li>
+                    <li>Liveness restarts a stuck container.</li>
+                    <li>Requests are used by the scheduler.</li>
+                    <li>Limits define maximum usage.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between liveness and readiness probe?</li>
+                    <li>What happens when memory limit is exceeded?</li>
+                    <li>What are resource requests used for?</li>
+                    <li>How does HPA work?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Troubleshooting commands</strong>
+                    <span class="tagline">Common kubectl commands for incidents and failed deployments.</span>
+                  </div>
+                  <span class="badge">Operations</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Common commands include <code>kubectl get pods -A</code>, <code>kubectl describe pod</code>, <code>kubectl logs</code>, <code>kubectl exec</code>, <code>kubectl get events</code> and <code>kubectl rollout status</code>.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used during incidents, failed deployments, networking issues or cluster health checks.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Describe shows events and failure reasons.</li>
+                    <li>Logs show container output.</li>
+                    <li>Events are often the fastest clue.</li>
+                    <li>CrashLoopBackOff means repeated container crashes.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do you troubleshoot ImagePullBackOff?</li>
+                    <li>How do you troubleshoot CrashLoopBackOff?</li>
+                    <li>How do you find why a pod is not scheduled?</li>
+                    <li>Which kubectl commands do you use most often?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="docker" data-group="Docker">
+          <div class="section-head">
+            <div>
+              <h2>Docker</h2>
+              <p class="section-desc">Container image, Dockerfile, runtime and registry basics.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Image vs container</strong>
+                    <span class="tagline">Immutable image template versus running container instance.</span>
+                  </div>
+                  <span class="badge">Basics</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>An image is an immutable template with filesystem layers and metadata. A container is a running instance of an image.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>Docker packages an application with runtime dependencies so it behaves the same in development, test and production.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>An image is built; a container is run.</li>
+                    <li>Layer cache speeds up builds.</li>
+                    <li>Containers should be disposable.</li>
+                    <li>Logs should be written to stdout and stderr.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between an image and a container?</li>
+                    <li>Why are containers useful for CI/CD?</li>
+                    <li>What does immutable image mean?</li>
+                    <li>How do you view container logs?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Dockerfile</strong>
+                    <span class="tagline">Recipe for building a container image.</span>
+                  </div>
+                  <span class="badge">Build</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A Dockerfile is a recipe for creating an image. It contains instructions such as FROM, WORKDIR, COPY, RUN, ENV, EXPOSE, CMD and ENTRYPOINT.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for repeatable application image builds in CI/CD pipelines.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>FROM defines the base image.</li>
+                    <li>RUN is executed during build.</li>
+                    <li>CMD and ENTRYPOINT define container startup behavior.</li>
+                    <li>Multi-stage build reduces the final image size.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between RUN and CMD?</li>
+                    <li>What is multi-stage build used for?</li>
+                    <li>How do you reduce Docker image size?</li>
+                    <li>Why should containers not run as root?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Volumes, networks, registry</strong>
+                    <span class="tagline">Persistent data, container networking and image distribution.</span>
+                  </div>
+                  <span class="badge">Runtime</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A volume stores data outside the container lifecycle. A Docker network enables communication between containers. A registry stores and distributes images.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for local development, persistent data, service communication and image distribution to environments.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Without a volume, container data can easily be lost.</li>
+                    <li>Bridge network is the default local network.</li>
+                    <li>Registry can be Docker Hub, ACR, ECR or another registry.</li>
+                    <li>Image tags should be specific.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What are Docker volumes used for?</li>
+                    <li>What is a container registry?</li>
+                    <li>How do containers communicate with each other?</li>
+                    <li>Why is the latest tag problematic?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="windows" data-group="Windows">
+          <div class="section-head">
+            <div>
+              <h2>Windows</h2>
+              <p class="section-desc">Windows Server and PowerShell basics for operations and automation.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Windows Server basics</strong>
+                    <span class="tagline">Enterprise server roles, services and administration.</span>
+                  </div>
+                  <span class="badge">Operating system</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Windows Server provides roles and features such as IIS, file services, DNS, DHCP, Active Directory integration and remote administration.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for enterprise workloads, legacy applications, domain-integrated services and Microsoft ecosystem infrastructure.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Server Manager manages roles and features.</li>
+                    <li>PowerShell is essential for automation.</li>
+                    <li>RDP access must be restricted.</li>
+                    <li>Patching and hardening are operational responsibilities.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do you securely manage Windows Server?</li>
+                    <li>What is IIS used for?</li>
+                    <li>Why should RDP not be open to the internet?</li>
+                    <li>How do you automate Windows administration?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>PowerShell</strong>
+                    <span class="tagline">Shell and scripting language for automation.</span>
+                  </div>
+                  <span class="badge">Automation</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>PowerShell is a command shell and scripting language used for Windows, Azure, Microsoft 365 and cross-platform automation.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to manage systems, query resources, automate repetitive tasks and build administration scripts.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Cmdlets use Verb-Noun naming.</li>
+                    <li>Objects flow through the pipeline.</li>
+                    <li>Modules extend functionality.</li>
+                    <li>Execution policy is not a security boundary by itself.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a cmdlet?</li>
+                    <li>How is PowerShell different from cmd.exe?</li>
+                    <li>What does the pipeline do?</li>
+                    <li>How would you automate a server check?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="linux" data-group="Linux">
+          <div class="section-head">
+            <div>
+              <h2>Linux</h2>
+              <p class="section-desc">Linux server basics and common operations commands.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Linux basics</strong>
+                    <span class="tagline">Common server operating system for cloud and DevOps workloads.</span>
+                  </div>
+                  <span class="badge">Operating system</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Linux is a common server operating system used for cloud workloads, containers, networking tools and DevOps automation.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for web servers, container hosts, automation agents, Kubernetes nodes and infrastructure services.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Everything is often represented as a file.</li>
+                    <li>Permissions are based on user, group and others.</li>
+                    <li>systemd manages services on many distributions.</li>
+                    <li>Logs are commonly viewed with journalctl or files under /var/log.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do Linux permissions work?</li>
+                    <li>How do you check service status?</li>
+                    <li>How do you inspect logs?</li>
+                    <li>What is systemd?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Common commands</strong>
+                    <span class="tagline">Everyday commands for troubleshooting and administration.</span>
+                  </div>
+                  <span class="badge">Operations</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Frequently used commands include <code>ls</code>, <code>cd</code>, <code>cat</code>, <code>grep</code>, <code>find</code>, <code>ps</code>, <code>top</code>, <code>df</code>, <code>du</code>, <code>chmod</code>, <code>chown</code>, <code>systemctl</code>, <code>journalctl</code>, <code>curl</code> and <code>ssh</code>.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>They are used for troubleshooting, system administration, file inspection, service management and connectivity checks.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>grep searches text.</li>
+                    <li>df shows filesystem usage.</li>
+                    <li>ps and top show processes.</li>
+                    <li>curl tests HTTP endpoints.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>How do you find a process using high CPU?</li>
+                    <li>How do you check disk usage?</li>
+                    <li>How do you search logs?</li>
+                    <li>How do you test an HTTP endpoint from a server?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="networking" data-group="Networking">
+          <div class="section-head">
+            <div>
+              <h2>Networking</h2>
+              <p class="section-desc">Core networking concepts used in cloud and DevOps work.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>TCP/IP, DNS, HTTP/S</strong>
+                    <span class="tagline">Core protocols for network communication and web applications.</span>
+                  </div>
+                  <span class="badge">Foundations</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>TCP/IP provides network communication, DNS resolves names to addresses, and HTTP/S is the protocol used by web applications.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used in every cloud and DevOps environment for service connectivity, troubleshooting and application delivery.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>DNS translates names to IP addresses.</li>
+                    <li>TLS secures HTTP as HTTPS.</li>
+                    <li>TCP is connection-oriented.</li>
+                    <li>Ports identify services on a host.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What does DNS do?</li>
+                    <li>What is the difference between HTTP and HTTPS?</li>
+                    <li>What is a port?</li>
+                    <li>How do you troubleshoot name resolution?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>CIDR, subnets, routing</strong>
+                    <span class="tagline">IP ranges, network segmentation and route tables.</span>
+                  </div>
+                  <span class="badge">Networking</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>CIDR defines IP ranges. Subnets divide a network into smaller segments. Routing determines where traffic goes.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to design cloud networks, separate tiers and connect environments safely.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Overlapping CIDR causes routing problems.</li>
+                    <li>A route table controls next hops.</li>
+                    <li>The default route is usually 0.0.0.0/0.</li>
+                    <li>Private ranges include 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is CIDR?</li>
+                    <li>Why do subnet ranges matter?</li>
+                    <li>What is a default route?</li>
+                    <li>Why is overlapping CIDR a problem?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="git" data-group="Git">
+          <div class="section-head">
+            <div>
+              <h2>Git</h2>
+              <p class="section-desc">Version control, collaboration and release basics.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Repository, commit, branch, merge</strong>
+                    <span class="tagline">Core Git concepts for source code history and collaboration.</span>
+                  </div>
+                  <span class="badge">Version control</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Git tracks source code history. Commits store changes, branches isolate work and merges combine changes.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for collaboration, code review, release tracking and CI/CD triggers.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A commit should be small and meaningful.</li>
+                    <li>Branches allow parallel work.</li>
+                    <li>Merge can create conflicts.</li>
+                    <li>Remote repositories are shared copies.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a commit?</li>
+                    <li>What is a branch?</li>
+                    <li>How do merge conflicts happen?</li>
+                    <li>Why is Git important for CI/CD?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Pull request, tags, fetch, pull</strong>
+                    <span class="tagline">Common collaboration and release workflow concepts.</span>
+                  </div>
+                  <span class="badge">Collaboration</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>A pull request is a review workflow. Tags mark specific commits. fetch downloads remote changes. pull fetches and integrates them.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for code review, releases, deployment triggers and team collaboration.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Pull request supports review before merge.</li>
+                    <li>Tags are often used for releases.</li>
+                    <li>fetch does not modify the working branch by itself.</li>
+                    <li>pull is fetch plus merge or rebase.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a pull request?</li>
+                    <li>What are Git tags used for?</li>
+                    <li>How does a pipeline know what to build?</li>
+                    <li>What is the difference between fetch and pull?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Stash, cherry-pick, reset, revert</strong>
+                    <span class="tagline">Useful Git operations for daily work and safe rollback.</span>
+                  </div>
+                  <span class="badge">Advanced daily use</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Stash temporarily shelves changes. Cherry-pick applies a specific commit. Reset moves a branch pointer and can change the working tree. Revert creates a new commit that undoes a previous change.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for hotfixes, cleaning local work and safely undoing changes.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Revert is safer on shared history.</li>
+                    <li><code>reset --hard</code> discards local changes.</li>
+                    <li>Cherry-pick can cause conflicts.</li>
+                    <li>Stash is local.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between reset and revert?</li>
+                    <li>When would you use cherry-pick?</li>
+                    <li>What does git stash do?</li>
+                    <li>How do you safely undo a commit on a production branch?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section class="section" id="extra-overview" data-group="Extra overview">
+          <div class="section-head">
+            <div>
+              <h2>Extra overview</h2>
+              <p class="section-desc">Additional tools and platforms often mentioned in DevOps environments.</p>
+            </div>
+            <span class="badge section-count">0 items</span>
+          </div>
+
+          <div class="grid">
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Helm</strong>
+                    <span class="tagline">Package manager for Kubernetes applications.</span>
+                  </div>
+                  <span class="badge">Kubernetes packaging</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Helm is a package manager for Kubernetes. An application is packaged as a chart containing Kubernetes manifest templates and values in values.yaml.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used to simplify deployment of complex applications to Kubernetes and manage release versions.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A chart is a package.</li>
+                    <li>A release is an installed chart instance.</li>
+                    <li>values.yaml parameterizes deployment.</li>
+                    <li>Helm templates generate Kubernetes YAML.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is a Helm chart?</li>
+                    <li>What is the difference between chart and release?</li>
+                    <li>What is values.yaml used for?</li>
+                    <li>Why use Helm instead of raw YAML files?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Jenkins</strong>
+                    <span class="tagline">Open-source automation server for CI/CD.</span>
+                  </div>
+                  <span class="badge">CI/CD</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Jenkins is an open-source automation server for CI/CD. Pipelines are often defined in a Jenkinsfile.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for build, test, deployment and process automation. It has many plugins and is often self-hosted.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Jenkinsfile is pipeline as code.</li>
+                    <li>An agent runs jobs.</li>
+                    <li>Plugins extend functionality.</li>
+                    <li>The Jenkins server requires maintenance, security and updates.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is Jenkinsfile?</li>
+                    <li>What is the difference between controller and agent?</li>
+                    <li>How does Jenkins handle secrets?</li>
+                    <li>What are the pros and cons of self-hosted CI/CD?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Ansible</strong>
+                    <span class="tagline">Automation and configuration management tool.</span>
+                  </div>
+                  <span class="badge">Configuration management</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Ansible is an automation and configuration management tool.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for server configuration, package installation, service management and repeatable administration.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>Inventory contains hosts.</li>
+                    <li>A playbook describes tasks.</li>
+                    <li>A module performs a specific action.</li>
+                    <li>Idempotency means repeated runs make no change when the desired state is already met.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is an Ansible playbook?</li>
+                    <li>What does idempotency mean?</li>
+                    <li>What is the difference between Ansible and Terraform?</li>
+                    <li>What is inventory used for?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>MongoDB</strong>
+                    <span class="tagline">Document NoSQL database.</span>
+                  </div>
+                  <span class="badge">NoSQL database</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>MongoDB is a document NoSQL database. It stores data as JSON/BSON-like documents inside collections.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for flexible data models, fast development and applications where a document model fits better than relational tables.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>A database contains collections.</li>
+                    <li>A collection contains documents.</li>
+                    <li>Indexes are critical for performance.</li>
+                    <li>It is not a replacement for SQL in every case.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is the difference between document and relational databases?</li>
+                    <li>What is a collection?</li>
+                    <li>Why are indexes important?</li>
+                    <li>When would you not use MongoDB?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Azure Service Fabric</strong>
+                    <span class="tagline">Platform for distributed applications and microservices.</span>
+                  </div>
+                  <span class="badge">Distributed applications</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Azure Service Fabric is a platform for running distributed applications and microservices. It supports stateless and stateful services.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It has historically been used for complex distributed applications in the Microsoft ecosystem. New projects often compare it with Kubernetes and PaaS services.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>It supports stateful services.</li>
+                    <li>A cluster consists of multiple nodes.</li>
+                    <li>Applications are packaged and deployed as service packages.</li>
+                    <li>It is not the same as AKS.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is Service Fabric?</li>
+                    <li>What is the difference between Service Fabric and Kubernetes?</li>
+                    <li>What does stateful service mean?</li>
+                    <li>Why might a company still use Service Fabric?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Groovy</strong>
+                    <span class="tagline">JVM scripting language often used in Jenkins pipelines.</span>
+                  </div>
+                  <span class="badge">Programming / scripting</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Groovy is a JVM language similar to Java, often used in Jenkins pipelines and scripts.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used in Jenkinsfile syntax, automation and build scripts.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>It runs on the JVM.</li>
+                    <li>Jenkins scripted pipeline uses Groovy.</li>
+                    <li>It is more dynamic than Java.</li>
+                    <li>For DevOps interviews, it mainly appears in Jenkins contexts.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>Where is Groovy used in DevOps?</li>
+                    <li>What is Jenkinsfile?</li>
+                    <li>What is the difference between declarative and scripted pipeline?</li>
+                    <li>Why is Groovy related to Jenkins?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <details class="card" data-topic>
+              <summary>
+                <div class="summary-row">
+                  <div class="title">
+                    <strong>Node.js</strong>
+                    <span class="tagline">JavaScript runtime for backend services and build tooling.</span>
+                  </div>
+                  <span class="badge">Runtime</span>
+                </div>
+              </summary>
+              <div class="content">
+                <div class="block">
+                  <h3>What it does</h3>
+                  <p>Node.js is a JavaScript runtime for servers. It allows JavaScript to run outside the browser and is often used for APIs, tooling and build systems.</p>
+                </div>
+                <div class="block">
+                  <h3>When it is used</h3>
+                  <p>It is used for backend services, CLI tools, frontend build pipelines and serverless functions.</p>
+                </div>
+                <div class="block">
+                  <h3>Remember</h3>
+                  <ul>
+                    <li>npm is a package manager.</li>
+                    <li>package.json defines dependencies and scripts.</li>
+                    <li>The event loop is the basis of its asynchronous model.</li>
+                    <li>node_modules contains installed packages.</li>
+                  </ul>
+                </div>
+                <div class="block">
+                  <h3>Possible interview questions</h3>
+                  <ul class="questions">
+                    <li>What is Node.js?</li>
+                    <li>What is package.json used for?</li>
+                    <li>What does npm install do?</li>
+                    <li>Why does Node.js often appear in CI/CD pipelines?</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <aside class="side-panel right-panel">
+      <div class="panel-card sticky-panel">
+        <h2 class="panel-title">Overview</h2>
+        <section class="stats" id="stats">
+          <div class="stat">
+            <strong id="totalTopics">0</strong>
+            <span>topics and services in the database</span>
+          </div>
+          <div class="stat">
+            <strong id="azureTopics">0</strong>
+            <span>Azure cards</span>
+          </div>
+          <div class="stat">
+            <strong id="awsTopics">0</strong>
+            <span>AWS cards</span>
+          </div>
+          <div class="stat">
+            <strong id="visibleTopics">0</strong>
+            <span>currently visible results</span>
+          </div>
+        </section>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const searchInput = document.getElementById("search");
+    const openMode = document.getElementById("openMode");
+    const homeReset = document.getElementById("homeReset");
+    const emptyState = document.getElementById("emptyState");
+    const navButtons = Array.from(document.querySelectorAll(".nav-btn"));
+    const sections = Array.from(document.querySelectorAll(".section"));
+    const cards = Array.from(document.querySelectorAll("[data-topic]"));
+
+    let activeGroup = "All";
+
+    function getCardsInGroup(group) {
+      if (group === "All") {
+        return cards;
+      }
+
+      return cards.filter(card => card.closest(".section")?.dataset.group === group);
+    }
+
+    function updateSectionCounts() {
+      sections.forEach(section => {
+        const count = section.querySelectorAll("[data-topic]").length;
+        const badge = section.querySelector(".section-count");
+
+        if (badge) {
+          badge.textContent = `${count} items`;
+        }
+      });
+    }
+
+    function updateStats(visibleCount) {
+      const total = cards.length;
+      const azure = getCardsInGroup("Azure").length;
+      const aws = getCardsInGroup("AWS").length;
+
+      document.getElementById("totalTopics").textContent = total;
+      document.getElementById("azureTopics").textContent = azure;
+      document.getElementById("awsTopics").textContent = aws;
+      document.getElementById("visibleTopics").textContent = visibleCount;
+    }
+
+    function applyOpenMode() {
+      const mode = openMode.value;
+
+      cards.forEach(card => {
+        if (mode === "open") {
+          card.open = true;
+        }
+
+        if (mode === "closed") {
+          card.open = false;
+        }
+      });
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      sections.forEach(section => {
+        const group = section.dataset.group;
+        const groupMatches = activeGroup === "All" || activeGroup === group;
+        let sectionVisibleCount = 0;
+
+        const sectionCards = Array.from(section.querySelectorAll("[data-topic]"));
+
+        sectionCards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          const queryMatches = !query || text.includes(query);
+          const visible = groupMatches && queryMatches;
+
+          card.classList.toggle("hidden-by-search", !visible);
+
+          if (visible) {
+            visibleCount++;
+            sectionVisibleCount++;
+          }
+        });
+
+        section.classList.toggle("hidden-by-search", sectionVisibleCount === 0);
+      });
+
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+      updateStats(visibleCount);
+      applyOpenMode();
+    }
+
+    function setActiveGroup(group) {
+      activeGroup = group;
+
+      navButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.group === group);
+      });
+
+      applyFilters();
+    }
+
+    navButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        setActiveGroup(button.dataset.group);
+
+        window.scrollTo({
+          top: document.querySelector("main").offsetTop - 10,
+          behavior: "smooth"
+        });
+      });
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+    openMode.addEventListener("change", applyFilters);
+
+    homeReset.addEventListener("click", () => {
+      activeGroup = "All";
+      searchInput.value = "";
+      openMode.value = "normal";
+
+      navButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.group === "All");
+      });
+
+      cards.forEach(card => {
+        card.open = false;
+      });
+
+      applyFilters();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+
+    updateSectionCounts();
+    applyFilters();
+  </script>
+</body>
+</html>
