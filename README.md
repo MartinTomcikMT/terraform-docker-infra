@@ -390,6 +390,38 @@ PHASE 2
   </table>
 </p>
 
+PHASE 3
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="images/terraform-docker-infra_phase3_main.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase3_main.jpg" width="400">
+        </a><br/>
+        <sub>Overview of main.tf</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase3_plan.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase3_plan.jpg" width="400">
+        </a><br/>
+        <sub>Plan in Phase 3</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase3_apply.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase3_apply.jpg" width="400">
+        </a><br/>
+        <sub>Apply in Phase3</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase3_webpage.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase3_webpage.jpg" width="400">
+        </a><br/>
+        <sub>Overview of web page</sub>
+      </td>
+    </tr>
+  </table>
+</p>
+
 ---
 
 ## 📃 Project Structure
