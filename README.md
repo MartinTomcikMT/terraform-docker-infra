@@ -309,6 +309,42 @@ I added `outputs.tf` to display the container name, image name, container ID and
         </a><br/>
         <sub>Terraform destroy</sub>
       </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase2_structure.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase2_structure.jpg" width="400">
+        </a><br/>
+        <sub>Structure after Phase 2</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase2_variables.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase2_variables.jpg" width="400">
+        </a><br/>
+        <sub>Variables</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase2_outputs.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase2_outputs.jpg" width="400">
+        </a><br/>
+        <sub>Outputs</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase2_validate.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase2_validate.jpg" width="400">
+        </a><br/>
+        <sub>Terraform destroy</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase2_plan.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase2_plan.jpg" width="400">
+        </a><br/>
+        <sub>Validation</sub>
+      </td>
+     <td align="center">
+        <a href="images/terraform-docker-infra_phase2_output.jpg" target="_blank">
+          <img src="images/terraform-docker-infra_phase2_output.jpg" width="400">
+        </a><br/>
+        <sub>Output after Phase 2</sub>
+      </td>
     </tr>
   </table>
 </p>
