@@ -274,8 +274,9 @@ I added `outputs.tf` to display the container name, image name, container ID and
 
 ---
 
-## 📸 Screenshot
+## 📸 Screenshots
 
+PHASE 1
 <p align="center">
   <table>
     <tr>
@@ -309,7 +310,14 @@ I added `outputs.tf` to display the container name, image name, container ID and
         </a><br/>
         <sub>Terraform destroy</sub>
       </td>
-     <td align="center">
+    </tr>
+  </table>
+</p>
+PHASE 2
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
         <a href="images/terraform-docker-infra_phase2_structure.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_structure.jpg" width="400">
         </a><br/>
