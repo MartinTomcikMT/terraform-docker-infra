@@ -432,6 +432,7 @@ terraform-docker-infra/
 ├── images/
 ├── web/
 │   └── index.html
+├── .gitattributes
 ├── .gitignore
 ├── .terraform.lock.hcl
 ├── README.md
