@@ -1,0 +1,6 @@
+# Example Terraform variable values.
+# Copy this file to terraform.tfvars and adjust values as needed.
+
+container_name = "terraform-nginx-phase4"
+external_port  = 8081
+image_name     = "nginx:stable"
