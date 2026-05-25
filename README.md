@@ -354,37 +354,37 @@ PHASE 2
         <a href="images/terraform-docker-infra_phase2_structure.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_structure.jpg" width="400">
         </a><br/>
-        <sub>Structure after Phase 2</sub>
+        <sub>Current structure</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase2_variables.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_variables.jpg" width="400">
         </a><br/>
-        <sub>Variables</sub>
+        <sub>Variables file</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase2_outputs.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_outputs.jpg" width="400">
         </a><br/>
-        <sub>Outputs</sub>
+        <sub>Outputs file</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase2_validate.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_validate.jpg" width="400">
         </a><br/>
-        <sub>Terraform destroy</sub>
+        <sub>Terraform validation</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase2_plan.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_plan.jpg" width="400">
         </a><br/>
-        <sub>Validation</sub>
+        <sub>Terraform plan</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase2_output.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase2_output.jpg" width="400">
         </a><br/>
-        <sub>Output after Phase 2</sub>
+        <sub>Output</sub>
       </td>
     </tr>
   </table>
@@ -398,19 +398,19 @@ PHASE 3
         <a href="images/terraform-docker-infra_phase3_main.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase3_main.jpg" width="400">
         </a><br/>
-        <sub>Overview of main.tf</sub>
+        <sub>Main.tf</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase3_plan.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase3_plan.jpg" width="400">
         </a><br/>
-        <sub>Plan in Phase 3</sub>
+        <sub>Terraform plan</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase3_apply.jpg" target="_blank">
           <img src="images/terraform-docker-infra_phase3_apply.jpg" width="400">
         </a><br/>
-        <sub>Apply in Phase3</sub>
+        <sub>Terraform apply</sub>
       </td>
      <td align="center">
         <a href="images/terraform-docker-infra_phase3_webpage.jpg" target="_blank">
