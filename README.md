@@ -8,19 +8,25 @@ Simple Infrastructure as Code project for creating a Docker container using Terr
 
 The goal of this project was to:
 
+PHASE 1  
 * practice basic Terraform workflow
 * understand how Terraform providers work
 * use Terraform to manage Docker resources
 * deploy a simple Nginx container with Terraform
 * learn the difference between Terraform configuration and real infrastructure
 * verify the deployed container locally through `localhost`
+PHASE 2  
+* improve Terraform project structure
+* replace hardcoded values with variables
+* add Terraform outputs for useful deployment information
+* make the project easier to read, maintain and extend
 
 ---
 
 ## ⏱️ Project Status
 
-**Status:** Completed – Phase 1  
-**Current Phase:** Phase 1 – Basic Infrastructure Deployment  
+**Status:** Completed – Phase 2  
+**Current Phase:** Phase 2 – Project Structure & Best Practices  
 **Type:** Infrastructure as Code / DevOps Lab  
 **Technologies:** Terraform, Docker, Nginx, WSL, VS Code
 
@@ -134,6 +140,13 @@ Confirm with:
 yes
 ```
 
+After successful deployment, Terraform displays useful outputs:
+
+```text
+application_url = "http://localhost:8080"
+container_name  = "terraform-nginx"
+image_name      = "nginx:latest"
+
 Verify that the container is running:
 
 ```bash
@@ -168,20 +181,23 @@ yes
 
 ## 🚀 How It Works
 
-1. Terraform reads the configuration from `main.tf`.
-2. Terraform downloads and uses the Docker provider.
-3. The Docker provider communicates with the local Docker daemon.
-4. Terraform pulls the `nginx:latest` Docker image.
-5. Terraform creates a Docker container named `terraform-nginx`.
-6. The container exposes internal port `80`.
-7. Local port `8080` is mapped to the container port `80`.
-8. The Nginx default page is available at `http://localhost:8080`.
-9. When `terraform destroy` is executed, Terraform removes the created container.
+1. Terraform reads the configuration from multiple `.tf` files.
+2. `main.tf` defines the Docker image and Docker container resources.
+3. `variables.tf` defines configurable values such as image name, container name and ports.
+4. `outputs.tf` defines useful information displayed after deployment.
+5. Terraform downloads and uses the Docker provider.
+6. The Docker provider communicates with the local Docker daemon.
+7. Terraform pulls the `nginx:latest` Docker image.
+8. Terraform creates a Docker container named `terraform-nginx`.
+9. Local port `8080` is mapped to container port `80`.
+10. The Nginx default page is available at `http://localhost:8080`.
+11. When `terraform destroy` is executed, Terraform removes the created container.
 
 ---
 
 ## 🧠 What I Learned
 
+PHASE 1  
 - how to create a basic Terraform project
 - how to configure a Terraform provider
 - how Terraform uses providers to manage external resources
@@ -193,6 +209,15 @@ yes
 - how Terraform state tracks created infrastructure
 - the difference between pushing code to GitHub and actually deploying infrastructure
 - how to verify a running container with Docker commands and `curl`
+
+PHASE 2  
+- how to split Terraform configuration into multiple files
+- how to use `variables.tf`
+- how to replace hardcoded values with variables
+- how to define default variable values
+- how to use `outputs.tf`
+- how to display useful information after `terraform apply`
+- how to make Terraform code cleaner and easier to maintain
 
 ---
 
@@ -223,6 +248,28 @@ Docker command was not available inside WSL.
 
 Docker had to be installed or Docker Desktop WSL integration had to be enabled.  
 After Docker was available inside WSL, Terraform could use the Docker provider to create the container.
+
+---
+
+### Problem:
+
+In Phase 1, all values were hardcoded directly in `main.tf`.
+
+### Solution:
+
+In Phase 2, I moved configurable values into `variables.tf`.
+
+This made the Terraform configuration cleaner and easier to update in future phases.
+
+---
+
+### Problem:
+
+After deployment, I wanted to see useful information without manually checking everything.
+
+### Solution:
+
+I added `outputs.tf` to display the container name, image name, container ID and application URL after `terraform apply`.
 
 ---
 
@@ -271,29 +318,27 @@ After Docker was available inside WSL, Terraform could use the Docker provider t
 
 ```text
 terraform-docker-infra/
+├── images/
 ├── .gitignore
 ├── .terraform.lock.hcl
 ├── README.md
-└── main.tf
+├── main.tf
+├── variables.tf
+└── outputs.tf
 ```
 
 ---
 
 ## 📌 Future Improvements
 
-- add `variables.tf`
-- add `outputs.tf`
-- improve Terraform project structure
 - serve a custom HTML page through Nginx
 - mount local files into the Docker container
 - introduce `terraform.tfvars`
-- make container name, exposed port and Docker image configurable
+- make configuration easier to customize without editing `.tf` files directly
 - create reusable Terraform modules
 - deploy multiple containers
 - add GitHub Actions for Terraform validation
-- add project screenshots
-
----
+- add more project screenshots
 
 ---
 
